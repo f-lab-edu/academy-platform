@@ -30,11 +30,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            ~/.gradle/caches/modules-2/files-2.1
+            ~/.gradle/wrapper/
+          key: gradle-cache-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-        
+            gradle-cache-${{ runner.os }}-
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
