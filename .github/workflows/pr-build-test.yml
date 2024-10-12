@@ -1,0 +1,32 @@
+name: pr-build-test
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    if: github.head_ref == 'chore/project-setup'  # 소스 브랜치가 'chore'인지 확인
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches/modules-2/files-2.1
+            ~/.gradle/wrapper/
+          key: gradle-cache-${{ runner.os }}-${{ hashFiles('build.gradle', 'settings.gradle', 'gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-cache-${{ runner.os }}-
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Build and Test with Gradle
+        run: ./gradlew build
