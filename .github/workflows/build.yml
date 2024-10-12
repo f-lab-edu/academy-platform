@@ -6,8 +6,11 @@ on:
   push:
     branches:
       - feature  # develop 브랜치에 푸시가 발생할 때 실행
+  pull_request:
+    branches:
+      - develop
 
-# jobs 섹션: 빌드 작업을 정의합니다.
+# jobs 섹션: 빌드 작업 을 정의합니다.
 jobs:
   build:
     runs-on: ubuntu-latest  # Ubuntu 가상 환경에서 실행
@@ -21,7 +24,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-            
+
+      # gradle cashing
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-        
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
