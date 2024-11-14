@@ -6,15 +6,29 @@ spring:
     password: academy123
 
   jpa:
-    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
+      # 데이터베이스 스키마 자동생성을 비활성화
       ddl-auto: none
     properties:
       hibernate:
-        format_sql: true #To beautify or pretty print the SQL
-        show_sql: true #show sql
+        format_sql: true # SQL 출력 시 보기 좋게 정렬하여 출력
+        show_sql: true # 콘솔에 실행되는 SQL 문을 표시하여 디버깅에 도움
+    # Spring Boot에서 View 렌더링 중에 데이터베이스와의 연결이 열려 있도록 해주는 옵션
+    open-in-view: false
 
 logging:
+  config: classpath:log4j2-spring.xml
   level:
-    org.hibernate:
-      sql: debug
+    p6spy: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+#    org:
+#      mybatis: OFF
+#      apache:
+#        ibatis: OFF
+#    jdbc:
+#      sqlonly: OFF
+#      sqltiming: OFF
