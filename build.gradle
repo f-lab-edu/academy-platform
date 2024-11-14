@@ -39,9 +39,6 @@ dependencies {
     implementation 'p6spy:p6spy:3.9.1'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 
     implementation 'org.mindrot:jbcrypt:0.4'
 
@@ -56,6 +53,13 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // TestContainers Core
+    testImplementation 'org.testcontainers:testcontainers:1.20.3'
+    // TestContainers MariaDB 모듈
+    testImplementation 'org.testcontainers:mariadb:1.19.0'
+    // TestContainers Spring Extension
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.0'
 }
 
 tasks.named('test') {

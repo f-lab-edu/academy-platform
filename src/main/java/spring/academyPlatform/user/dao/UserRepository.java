@@ -7,4 +7,5 @@ import spring.academyPlatform.user.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	User findByUserName(String username);
 }

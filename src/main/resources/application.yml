@@ -19,6 +19,9 @@ spring:
 logging:
   config: classpath:log4j2-spring.xml
   level:
+    org:
+      hibernate:
+        sql: off
     p6spy: debug
 
 decorator:

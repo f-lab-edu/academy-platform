@@ -35,7 +35,7 @@ public class UserService {
 	public UserDto findUser(Long id) {
 
 		Optional<User> user = userRepository.findById(id);
-		user
+
 		return null;
 	}
 }

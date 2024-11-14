@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      # 데이터베이스 스키마 자동생성을 비활성화
+      ddl-auto: update
+      # Spring Boot에서 View 렌더링 중에 데이터베이스와의 연결이 열려 있도록 해주는 옵션
+    open-in-view: false
+
+logging:
+  config: classpath:log4j2-spring.xml
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: off
+        sql: off
+    p6spy: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
