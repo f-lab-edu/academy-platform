@@ -15,7 +15,6 @@ public class UserDto {
 	String userName;
 	@NotBlank
 	String userType;
-	@NotBlank
 	String createdBy;
 	String modifiedBy;
 	@NotBlank

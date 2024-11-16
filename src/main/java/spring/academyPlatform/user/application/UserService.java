@@ -20,12 +20,10 @@ public class UserService {
 
 	private final UserRepository userRepository;
 
-	private final BcryptPasswordEncryptor passwordEncryptor;
-
 	public UserDto insertUser(UserDto dto) {
 
 		String hashPassword = BcryptPasswordEncryptor.hashPassword(dto.getUserPassword());
-		log.error("show encoding {} ", hashPassword);
+		// log.error("show encoding {} ", hashPassword);
 		dto.setUserPassword(hashPassword);
 		User result = userRepository.save(User.from(dto));
 
