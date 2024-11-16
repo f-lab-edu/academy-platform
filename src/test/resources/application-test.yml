@@ -7,8 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      # 데이터베이스 스키마 자동생성을 비활성화
-      ddl-auto: update
+      ddl-auto: create
       # Spring Boot에서 View 렌더링 중에 데이터베이스와의 연결이 열려 있도록 해주는 옵션
     open-in-view: false
 
