@@ -3,14 +3,11 @@ package spring.academyPlatform.user.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
-import spring.academyPlatform.user.domain.User;
 
 @Data
-public class UserDto {
+public class UserInsertResponseDto {
 	@NotBlank
 	String userId;
-	@NotBlank
-	String userPassword;
 	@NotBlank
 	String userName;
 	@NotBlank
@@ -20,25 +17,13 @@ public class UserDto {
 	String deletedYn;
 
 	@Builder
-	public UserDto(String userId, String userPassword, String userName, String userType, String createdBy,
-		String modifiedBy, String deletedYn) {
+	public UserInsertResponseDto(String userId, String userName,
+		String userType, String createdBy, String deletedYn) {
 		this.userId = userId;
-		this.userPassword = userPassword;
 		this.userName = userName;
 		this.userType = userType;
 		this.createdBy = createdBy;
 		this.deletedYn = deletedYn;
-	}
-
-	public static UserDto from(User user) {
-		return UserDto.builder()
-			.userId(user.getUserId())
-			.userName(user.getUserName())
-			.userType(user.getUserType())
-			.createdBy(user.getCreatedBy())
-			.deletedYn(user.getDeletedYn())
-			.build();
-
 	}
 
 }

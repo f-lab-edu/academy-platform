@@ -17,12 +17,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import spring.academyPlatform.user.dto.UserDto;
+import lombok.ToString;
 
 @Entity
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
@@ -72,15 +73,4 @@ public class User {
 		this.deletedYn = deletedYn;
 	}
 
-	public static User from(UserDto userDto) {
-		return User.builder()
-			.userId(userDto.getUserId())
-			.userPassword(userDto.getUserPassword())
-			.userName(userDto.getUserName())
-			.userType(userDto.getUserType())
-			.createdBy(userDto.getCreatedBy())
-			.modifiedBy(userDto.getModifiedBy())
-			.deletedYn(userDto.getDeletedYn())
-			.build();
-	}
 }
