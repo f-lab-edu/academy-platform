@@ -16,7 +16,6 @@ public class UserDto {
 	@NotBlank
 	String userType;
 	String createdBy;
-	String modifiedBy;
 	@NotBlank
 	String deletedYn;
 
@@ -28,18 +27,15 @@ public class UserDto {
 		this.userName = userName;
 		this.userType = userType;
 		this.createdBy = createdBy;
-		this.modifiedBy = modifiedBy;
 		this.deletedYn = deletedYn;
 	}
 
 	public static UserDto from(User user) {
 		return UserDto.builder()
 			.userId(user.getUserId())
-			.userPassword(user.getUserPassword())
 			.userName(user.getUserName())
 			.userType(user.getUserType())
 			.createdBy(user.getCreatedBy())
-			.modifiedBy(user.getModifiedBy())
 			.deletedYn(user.getDeletedYn())
 			.build();
 
