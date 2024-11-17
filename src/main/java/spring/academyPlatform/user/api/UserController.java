@@ -36,16 +36,17 @@ public class UserController {
 		}
 	}
 
-/*	@GetMapping("/find-user")
-	public ResponseEntity<Message> findUser(@RequestParam Long id) {
+	@PostMapping("/login-user")
+	public ResponseEntity<Message> getLoginUser(@RequestParam String userId, @RequestParam String password,
+		HttpSession session) {
 		try {
-			UserDto result = userService.findUser(id);
+			boolean result = userService.authenticate(userId, password, session);
 			return ResponseEntity.status(HttpStatus.OK)
-				.body(new Message(HttpStatus.OK, "Successfully joined user!", result));
+				.body(new Message(HttpStatus.OK, "Successfully login!", result));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(new Message(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
-	}*/
+	}
 }

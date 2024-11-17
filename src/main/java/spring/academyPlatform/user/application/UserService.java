@@ -2,6 +2,7 @@ package spring.academyPlatform.user.application;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,10 +38,20 @@ public class UserService {
 		return UserMapper.fromEntity(savedUser);
 	}
 
-/*	public UserDto findUser(Long id) {
+	public boolean authenticate(String userId, String password, HttpSession session) {
 
-		Optional<User> user = userRepository.findById(id);
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException(" 해당 아이디는 존재하지 않습니다."));
 
-		return null;
-	}*/
+		try {
+			if (user.getUserId().equals(userId) && BcryptPasswordEncryptor.checkPassword(password,
+				user.getUserPassword())) {
+				session.setAttribute("user", user.getUserName());
+				log.info(session.getId());
+			}
+			return true;
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e.getMessage(), e.getCause());
+		}
+	}
 }
