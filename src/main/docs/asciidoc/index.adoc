@@ -1,5 +1,5 @@
 = REST Docs
-backtony.github.io(부제)
+academy-platform
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs // 문서에 표기되는 코드들의 하이라이팅을 highlightjs를 사용
@@ -11,6 +11,11 @@ backtony.github.io(부제)
 == User API
 
 [[User-회원-가입]]
-== User 회원 가입
+=== User 회원 가입
 
-operation::user-join[snippets='http-request,path-parameters,http-response,response-fields']
+operation::join_user[snippets='http-request,http-response,response-fields']
+
+[[User-로그인]]
+=== User 로그인
+
+operation::login_user[snippets='http-request,form-parameters,http-response,response-fields']
