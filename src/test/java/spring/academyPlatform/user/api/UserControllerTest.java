@@ -76,7 +76,8 @@ class UserControllerTest extends AbstractIntegrationTest {
 					fieldWithPath("userName").description("유저 이름"),
 					fieldWithPath("userType").description("유저 타입")),
 				responseFields( // 응답 필드 정보 입력
-					fieldWithPath("status").description("응답 상태 코드"), fieldWithPath("message").description("응답 메시지"),
+					fieldWithPath("status").description("응답 상태 코드"),
+					fieldWithPath("message").description("응답 메시지"),
 					fieldWithPath("data.userId").description("유저 아이디"),
 					fieldWithPath("data.userName").description("유저 이름"),
 					fieldWithPath("data.userType").description("유저 타입"),
@@ -104,7 +105,19 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.andExpect(status().isConflict()) // 409 Conflict 기대
 			.andExpect(jsonPath("$.status").value(409))
 			.andExpect(jsonPath("$.message").value("User ID already exists"))
-			.andDo(document("join_user_fail_duplicate_id"));
+			.andDo(document("join_user_fail_duplicate_id",
+				requestFields(
+					fieldWithPath("userId").description("유저 아이디"),
+					fieldWithPath("userPassword").description("유저 비밀번호"),
+					fieldWithPath("userName").description("유저 이름"),
+					fieldWithPath("userType").description("유저 타입")
+				),
+				responseFields(
+					fieldWithPath("status").description("HTTP 상태 코드"),
+					fieldWithPath("message").description("에러 메시지"),
+					fieldWithPath("data").description("리턴값 없음")
+				)
+			));
 	}
 
 	@Test
@@ -162,8 +175,17 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.status").value(400))
 			.andExpect(jsonPath("$.message").value("해당 아이디는 존재하지 않습니다."))
-			.andDo(document("login_user_fail")
-			);
+			.andDo(document("login_user_failed_id",
+				formParameters(
+					parameterWithName("userId").description("User ID"),
+					parameterWithName("password").description("User Password")
+				),
+				responseFields(
+					fieldWithPath("status").description("응답 상태 코드"),
+					fieldWithPath("message").description("응답 메시지"),
+					fieldWithPath("data").description("로그인 성공 여부")
+				)
+			));
 
 	}
 
@@ -190,8 +212,18 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.status").value(400))
 			.andExpect(jsonPath("$.message").value("입력한 정보가 올바르지 않습니다"))
-			.andDo(document("login_user_fail")
-			);
+			.andDo(document("login_user_failed_password",
+				formParameters(
+					parameterWithName("userId").description("User ID"),
+					parameterWithName("password").description("User Password")
+				),
+				responseFields(
+					fieldWithPath("status").description("응답 상태 코드"),
+					fieldWithPath("message").description("응답 메시지"),
+					fieldWithPath("data").description("로그인 성공 여부")
+				)
+			));
+
 
 	}
 

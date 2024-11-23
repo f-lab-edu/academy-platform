@@ -78,22 +78,25 @@ dependencies {
 }
 
 ext {
-    // 아래서 사용할 변수 선언
+    // snippetsDir 변수를 build/generated-snippets 디렉토리로 설정합니다.
+    // 이 디렉토리는 테스트 중에 생성된 문서 스니펫 파일들이 저장되는 위치
     snippetsDir = file('build/generated-snippets')
 }
 
-
 test {
-    // 위에서 작성한 snippetsDir 디렉토리를 test의 output으로 구성하는 설정 -> 스니펫 조각들이 build/generated-snippets로 출력
+    // 테스트 실행 시 생성된 스니펫 파일들을 snippetsDir에 출력합니다.
     outputs.dir snippetsDir
     finalizedBy 'jacocoTestReport'
     useJUnitPlatform()
 }
 
-asciidoctor { // asciidoctor 작업 구성
-    dependsOn test // test 작업 이후에 작동하도록 하는 설정
-    configurations 'asciidoctorExtensions' // 위에서 작성한 configuration 적용
-    inputs.dir snippetsDir // snippetsDir 를 입력으로 구성
+asciidoctor {
+    // asciidoctor 작업은 test 작업이 완료된 후 실행됩니다. 이는 스니펫 파일들이 먼저 생성되어야 하기 때문입니다.
+    dependsOn test
+    // Asciidoctor 확장 기능을 위한 의존성을 설정합니다.
+    configurations 'asciidoctorExtensions'
+    // 문서 생성 시 필요한 스니펫 파일들이 위치한 디렉토리를 input으로 지정
+    inputs.dir snippetsDir
 
     // source가 없으면 .adoc파일을 전부 html로 만들어버림
     // source 지정시 특정 adoc만 HTML로 만든다.
@@ -101,31 +104,35 @@ asciidoctor { // asciidoctor 작업 구성
         include("**/index.adoc", "**/common/*.adoc")
     }
 
-    // 특정 .adoc에 다른 adoc 파일을 가져와서(include) 사용하고 싶을 경우 경로를 baseDir로 맞춰주는 설정입니다.
-    // 개별 adoc으로 운영한다면 필요 없는 옵션입니다.
+    // 소스 파일의 디렉토리 구조를 기반으로 빌드 디렉토리의 기본 디렉토리를 설정합니다.
     baseDirFollowsSourceFile()
 }
 
-// static/docs 폴더 비우기
+// Asciidoctor 작업 전 준비 단계
+// asciidoctor 작업이 실행되기 전에 기존의 static/docs 디렉토리를 삭제하고, 새로 생성합니다. 이는 이전 문서 파일들이 남아있지 않도록 보장합니다
 asciidoctor.doFirst {
     delete file('src/main/resources/static/docs')
+    file('src/main/resources/static/docs').mkdirs()
 }
 
-// asccidoctor 작업 이후 생성된 HTML 파일을 static/docs 로 copy
-task copyDocument(type: Copy) {
-    dependsOn asciidoctor
-    from file("build/docs/asciidoc")
+// asciidoctor 작업 이후 생성된 HTML 파일을 static/docs로 copy
+tasks.register('copyDocument', Copy) {
+    dependsOn asciidoctor // copyDocument 작업은 asciidoctor 작업이 완료된 후 실행됩니다.
+    from file("build/docs/asciidoc/index.html")
     into file("src/main/resources/static/docs")
+
 }
 
-// build 의 의존작업 명시
-build {
+// build 작업이 실행될 때 copyDocument 작업도 함께 실행되도록 설정합니다.
+// 빌드 과정에서 항상 최신 문서가 포함되도록 보장함.
+tasks.named('build') {
     dependsOn copyDocument
 }
 
+// bootJar 작업이 copyDocument 작업에 의존하도록 설정하여, JAR 파일 생성 시 최신 문서가 포함되도록 합니다.
 bootJar {
-    dependsOn asciidoctor
-    from("${asciidoctor.outputDir}/html5") {
+    dependsOn copyDocument
+    from("build/docs/asciidoc/index.html") {
         into 'static/docs'
     }
 }

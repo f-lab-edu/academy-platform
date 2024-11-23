@@ -1,0 +1,44 @@
+= REST Docs
+academy-platform
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs // 문서에 표기되는 코드들의 하이라이팅을 highlightjs를 사용
+:toc: left // toc (Table Of Contents)를 문서의 좌측에 두기
+:toclevels: 2
+:sectlinks:
+
+== Introduction
+
+This document describes the academy_platform API endpoints.
+
+[[User-API]]
+== User API
+
+[[User-회원가입]]
+== 회원가입
+
+=== 성공적인 회원 가입
+
+operation::join_user[snippets='http-request,request-fields,http-response,response-fields,response-body']
+
+=== 중복된 아이디로 가입 실패
+
+operation::join_user_fail_duplicate_id[snippets='http-request,request-fields,http-response']
+
+[[User-로그인]]
+== User 로그인
+
+'''
+=== 로그인 성공
+
+operation::login_user[snippets='form-parameters,http-request,http-response,response-fields']
+'''
+
+=== 잘못된 아이디 입력
+
+operation::login_user_failed_id[snippets='form-parameters,http-request,response-fields,http-response']
+'''
+
+=== 잘못된 비밀번호 입력
+
+operation::login_user_failed_password[snippets='form-parameters,http-request,response-fields,http-response']
