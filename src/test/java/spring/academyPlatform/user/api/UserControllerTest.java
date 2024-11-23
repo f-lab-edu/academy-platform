@@ -18,23 +18,40 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import spring.academyPlatform.config.AbstractIntegrationTest;
-import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.dto.UserInsertParamDto;
+
+/**
+ * 테스트 코드는 클래스 전체적으로 실행하면 테이블 공유
+ * 개별적으로 사용하면 공유하지 않는다.
+ * @SpringBootTest
+ * 통합 테스트를 제공하는 기본적인 스프링 부트 테스트 어노테이션
+ * @AutoConfigureMockMvc
+ * 서블릿 컨테이너를 모킹하기 위해 사용합니다.
+ * 웹 환경에서 컨트롤러를 테스트 하려면 반드시 서블릿 컨테이너가 구동되고,
+ * DispatcherServlet 객체가 메모리에 올라가야 하지만,
+ * 서블릿 컨테이너를 모킹하면 실제 서블릿 컨테이너가 아닌 테스트용 모형 컨테이너를 사용하기 때문에 간단하게 컨트롤러를 테스트 할 수있습니다.
+ * @AutoConfigureRestDocs // rest docs 자동 설정
+ * @ActiveProfiles("test") // 'test' 프로파일 활성화
+ * @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
+ * @Order() 테스트 코드 실행 순서를 지정함.
+ *
+ */
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs // rest docs 자동 설정
 @ActiveProfiles("test") // 'test' 프로파일 활성화
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class) // 테스트 코드 실행 순서를 지정함.
 class UserControllerTest extends AbstractIntegrationTest {
+
 	@Autowired
 	MockMvc mockMvc;
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Autowired
-	private UserRepository userRepository;
-
 	@Test
+	@Order(1)
+	@DisplayName("회원 가입 테스트")
 	void join_user() throws Exception {
 		String id = "test9";
 

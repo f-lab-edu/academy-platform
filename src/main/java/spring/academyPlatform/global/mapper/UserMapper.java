@@ -6,6 +6,10 @@ import spring.academyPlatform.user.domain.User;
 import spring.academyPlatform.user.dto.UserInsertParamDto;
 import spring.academyPlatform.user.dto.UserInsertResponseDto;
 
+/**
+ * @Component
+ * 스프링에서 빈으로 등록할 클래스를 명시하는 어노테이션 입니다.
+ */
 @Component
 public class UserMapper {
 
