@@ -34,6 +34,11 @@ public class UserService {
 
 		String hashPassword = BcryptPasswordEncryptor.hashPassword(dto.getUserPassword());
 
+		// 사용자 중복 확인
+		if (userRepository.findById(dto.getUserId()).isPresent()) {
+			throw new IllegalArgumentException("User ID already exists");
+		}
+
 		User user = User.builder()
 			.userId(dto.getUserId())
 			.userType(dto.getUserType())
@@ -50,17 +55,14 @@ public class UserService {
 	public boolean authenticate(String userId, String password, HttpSession session) {
 
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new IllegalArgumentException(" 해당 아이디는 존재하지 않습니다."));
+			.orElseThrow(() -> new IllegalArgumentException("해당 아이디는 존재하지 않습니다."));
 
-		try {
-			if (user.getUserId().equals(userId) && BcryptPasswordEncryptor.checkPassword(password,
-				user.getUserPassword())) {
-				session.setAttribute("user", user.getUserName());
-				log.info(session.getId());
-			}
+		if (user.getUserId().equals(userId) && BcryptPasswordEncryptor.checkPassword(password,
+			user.getUserPassword())) {
+			session.setAttribute("user", user.getUserName());
 			return true;
-		} catch (Exception e) {
-			throw new IllegalArgumentException(e.getMessage(), e.getCause());
+		} else {
+			throw new IllegalArgumentException("입력한 정보가 올바르지 않습니다");
 		}
 	}
 }
