@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.11-SNAPSHOT'
     id 'io.spring.dependency-management' version '1.1.6'
     id "org.asciidoctor.jvm.convert" version "3.3.2"
+    id 'jacoco'
 }
 
 group = 'spring'
@@ -72,7 +73,7 @@ dependencies {
     // MockMvc 대신 WebTestClient을 사용하려면 spring-restdocs-webtestclient 추가
     // MockMvc 대신 REST Assured를 사용하려면 spring-restdocs-restassured 를 추가
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    
+
 
 }
 
@@ -85,6 +86,7 @@ ext {
 test {
     // 위에서 작성한 snippetsDir 디렉토리를 test의 output으로 구성하는 설정 -> 스니펫 조각들이 build/generated-snippets로 출력
     outputs.dir snippetsDir
+    finalizedBy 'jacocoTestReport'
     useJUnitPlatform()
 }
 
@@ -127,7 +129,66 @@ bootJar {
         into 'static/docs'
     }
 }
+// jacoco 설정
+jacoco {
+    toolVersion = "0.8.11"
+}
 
+// jacocoTestReport를 생성할 파일종류와 경로지정
+jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+        html.required.set(true)
+
+        xml.destination file(project.layout.buildDirectory.dir("jacoco/index.xml")) as File
+        csv.destination file(project.layout.buildDirectory.dir("jacoco/index.csv")) as File
+        html.destination file(project.layout.buildDirectory.dir("jacoco/index.html")) as File
+
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['spring/academyPlatform/global/**',
+                              'spring/academyPlatform/AcademyPlatformApplication.class',
+                              'spring/academyPlatform/user/**/dto/**',
+                              'spring/academyPlatform/user/**/domain/**',
+                              'spring/academyPlatform/user/**/dao/**'])
+        }))
+    }
+
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true // 활성화
+            element = 'CLASS' // 클래스 단위로 커버리지 체크
+
+            // 라인 커버리지 제한을 80%로 설정
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            // 브랜치 커버리지 제한을 80%로 설정
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            excludes = ['spring/academyPlatform/global/**',
+                        'spring/academyPlatform/AcademyPlatformApplication.class',
+                        'spring/academyPlatform/user/**/dto/**',
+                        'spring/academyPlatform/user/**/domain/**',
+                        'spring/academyPlatform/user/**/dao/**']
+        }
+
+    }
+}
 
 tasks.named('test') {
     useJUnitPlatform()
