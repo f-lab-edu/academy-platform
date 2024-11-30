@@ -3,13 +3,13 @@ package spring.academyPlatform.user.mapper;
 import org.springframework.stereotype.Component;
 
 import spring.academyPlatform.user.domain.User;
-import spring.academyPlatform.user.dto.UserCreateRequestDto;
-import spring.academyPlatform.user.dto.UserCreateResponseDto;
+import spring.academyPlatform.user.dto.UserCreateRequest;
+import spring.academyPlatform.user.dto.UserCreateResponse;
 
 @Component
 public class UserMapper {
 
-	public static User fromDto(UserCreateRequestDto dto, String encodingPassword) {
+	public static User fromDto(UserCreateRequest dto, String encodingPassword) {
 		return User.builder()
 			.userId(dto.getUserId())
 			.userName(dto.getUserName())
@@ -19,8 +19,8 @@ public class UserMapper {
 			.build();
 	}
 
-	public static UserCreateResponseDto fromEntity(User user) {
-		return UserCreateResponseDto.builder()
+	public static UserCreateResponse fromEntity(User user) {
+		return UserCreateResponse.builder()
 			.userId(user.getUserId())
 			.userName(user.getUserName())
 			.userType(user.getUserType())
