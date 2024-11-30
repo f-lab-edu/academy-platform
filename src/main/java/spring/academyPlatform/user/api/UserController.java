@@ -36,16 +36,4 @@ public class UserController {
 		}
 	}
 
-/*	@GetMapping("/find-user")
-	public ResponseEntity<Message> findUser(@RequestParam Long id) {
-		try {
-			UserDto result = userService.findUser(id);
-			return ResponseEntity.status(HttpStatus.OK)
-				.body(new Message(HttpStatus.OK, "Successfully joined user!", result));
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(new Message(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
-		}
-	}*/
 }
