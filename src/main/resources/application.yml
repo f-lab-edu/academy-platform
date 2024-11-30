@@ -28,10 +28,4 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
-#    org:
-#      mybatis: OFF
-#      apache:
-#        ibatis: OFF
-#    jdbc:
-#      sqlonly: OFF
-#      sqltiming: OFF
+
