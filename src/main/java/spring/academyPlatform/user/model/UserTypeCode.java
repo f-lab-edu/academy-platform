@@ -1,5 +1,5 @@
 package spring.academyPlatform.user.model;
 
-public enum TypeCode {
-	student, teacher;
+public enum UserTypeCode {
+	STUDENT, TEACHER;
 }
