@@ -1,20 +1,18 @@
 package spring.academyPlatform.user.mapper;
 
-import org.springframework.stereotype.Component;
-
 import spring.academyPlatform.user.domain.User;
 import spring.academyPlatform.user.dto.UserCreateRequest;
 import spring.academyPlatform.user.dto.UserCreateResponse;
+import spring.academyPlatform.user.model.UserTypeCode;
 
-@Component
 public class UserMapper {
 
-	public static User fromDto(UserCreateRequest dto, String encodingPassword) {
+	public static User fromDto(UserCreateRequest dto, String encodingPassword, UserTypeCode userTypeCode) {
 		return User.builder()
 			.userId(dto.getUserId())
 			.userName(dto.getUserName())
 			.userPassword(encodingPassword)
-			.userType(dto.getUserType())
+			.userType(userTypeCode)
 			.createdBy(dto.getUserName())
 			.build();
 	}

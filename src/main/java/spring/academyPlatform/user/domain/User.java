@@ -20,8 +20,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import spring.academyPlatform.user.model.TypeCode;
-import spring.academyPlatform.user.model.YnCode;
+import spring.academyPlatform.global.model.YnCode;
+import spring.academyPlatform.user.model.UserTypeCode;
 
 @Entity
 @Table(name = "user")
@@ -43,7 +43,7 @@ public class User {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "user_type")
-	private TypeCode userType;
+	private UserTypeCode userType;
 
 	@Column(name = "created_at")
 	@CreatedDate
@@ -66,7 +66,7 @@ public class User {
 	private YnCode deletedYn = YnCode.N;
 
 	@Builder
-	public User(String userId, String userPassword, String userName, TypeCode userType,
+	public User(String userId, String userPassword, String userName, UserTypeCode userType,
 		String createdBy, String modifiedBy, YnCode deletedYn) {
 		this.userId = userId;
 		this.userPassword = userPassword;
