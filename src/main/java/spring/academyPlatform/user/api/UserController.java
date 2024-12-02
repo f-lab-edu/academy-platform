@@ -1,8 +1,5 @@
 package spring.academyPlatform.user.api;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,16 +23,13 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping("/user")
-	public ResponseEntity<Object> getUser(@Valid @RequestBody UserCreateRequest dto) {
+	public ResponseEntity<UserCreateResponse> getUser(@Valid @RequestBody UserCreateRequest dto) {
 		try {
 			UserCreateResponse result = userService.createUser(dto);
-			Map<String, Object> resultMap = new HashMap<>();
-			resultMap.put("user", result);
-			resultMap.put("message", "Successfully joined user!");
-			return ResponseEntity.status(HttpStatus.OK).body(resultMap);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("failed");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
