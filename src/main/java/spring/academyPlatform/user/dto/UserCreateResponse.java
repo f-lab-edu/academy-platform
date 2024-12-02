@@ -3,24 +3,24 @@ package spring.academyPlatform.user.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
-import spring.academyPlatform.user.model.TypeCode;
-import spring.academyPlatform.user.model.YnCode;
+import spring.academyPlatform.global.model.YnCode;
+import spring.academyPlatform.user.model.UserTypeCode;
 
 @Getter
 @Builder
 public class UserCreateResponse {
 	@NotBlank
-	String userId;
+	private String userId;
 	@NotBlank
-	String userName;
+	private String userName;
 	@NotBlank
-	TypeCode userType;
-	String createdBy;
-	YnCode deletedYn;
+	private UserTypeCode userType;
+	private String createdBy;
+	private YnCode deletedYn;
 
 	@Builder
 	public UserCreateResponse(String userId, String userName,
-		TypeCode userType, String createdBy, YnCode deletedYn) {
+		UserTypeCode userType, String createdBy, YnCode deletedYn) {
 		this.userId = userId;
 		this.userName = userName;
 		this.userType = userType;
