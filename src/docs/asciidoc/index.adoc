@@ -42,3 +42,12 @@ operation::login_user_failed_id[snippets='form-parameters,http-request,response-
 === 잘못된 비밀번호 입력
 
 operation::login_user_failed_password[snippets='form-parameters,http-request,response-fields,http-response']
+
+[[History-조회]]
+== History 조회
+
+'''
+=== 히스토리 조회 성공
+
+operation::histories[snippets='query-parameters,http-request,http-response,response-fields']
+'''
