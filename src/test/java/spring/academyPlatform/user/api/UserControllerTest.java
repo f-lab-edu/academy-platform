@@ -6,6 +6,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -18,10 +19,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import spring.academyPlatform.config.AbstractIntegrationTest;
+import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.dto.UserInsertParamDto;
 
 /**
@@ -46,12 +49,22 @@ import spring.academyPlatform.user.dto.UserInsertParamDto;
 @AutoConfigureRestDocs // rest docs 자동 설정
 @ActiveProfiles("test") // 'test' 프로파일 활성화
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class) // 테스트 코드 실행 순서를 지정함.
+@Transactional
 class UserControllerTest extends AbstractIntegrationTest {
 
 	@Autowired
 	MockMvc mockMvc;
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	private UserRepository userRepository; // 리포지토리 주입 추가
+
+	@BeforeEach
+	void setUp() {
+		// 모든 유저 데이터 삭제
+		userRepository.deleteAll();
+	}
 
 	@Test
 	@Order(1)
@@ -89,7 +102,17 @@ class UserControllerTest extends AbstractIntegrationTest {
 	@Order(2)
 	@DisplayName("중복된 아이디로 가입시 오류발생 테스트")
 	void join_user_with_duplicate_id() throws Exception {
-		String id = "test9";
+		String id = "test100";
+		// 사용자 생성
+		UserInsertParamDto dto = UserInsertParamDto.builder()
+			.userId(id)
+			.userPassword("password")
+			.userName("test_name")
+			.userType("student")
+			.build();
+
+		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
 		// 중복된 ID 생성 요청 DTO
 		UserInsertParamDto dto2 = UserInsertParamDto.builder()
@@ -138,7 +161,7 @@ class UserControllerTest extends AbstractIntegrationTest {
 
 		mockMvc.perform(post("/api/v1/user/login-user")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("userId", "test9")
+				.param("userId", "test11")
 				.param("password", "password"))
 			.andExpect(status().isOk())
 			.andDo(document("login_user", formParameters(parameterWithName("userId").description("User ID"),
@@ -223,7 +246,6 @@ class UserControllerTest extends AbstractIntegrationTest {
 					fieldWithPath("data").description("로그인 성공 여부")
 				)
 			));
-
 
 	}
 
