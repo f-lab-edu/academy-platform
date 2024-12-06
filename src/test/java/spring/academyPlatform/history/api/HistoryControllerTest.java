@@ -44,7 +44,7 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 	@Test
 	@DisplayName("히스토리 조회 테스트")
 	@Transactional
-	void find_history() throws Exception {
+	void find_history_success() throws Exception {
 
 		User user = userRepository.save(User.builder()
 			.userId("testId")
@@ -91,6 +91,32 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 					fieldWithPath("[].createdAt").description("생성일시"),
 					fieldWithPath("[].createdBy").description("생성자"),
 					fieldWithPath("[].deletedYn").description("삭제여부")
+				)));
+	}
+
+	@Test
+	@DisplayName("히스토리 삭제 테스트")
+	@Transactional
+	void delete_history() throws Exception {
+
+		User user = userRepository.save(User.builder()
+			.userId("testId")
+			.userType("student")
+			.userName("test")
+			.userPassword("1234")
+			.createdBy("test")
+			.deletedYn("Y")
+			.build());
+
+		HistoryCreateRequest dto = new HistoryCreateRequest("테스트 테이블", "테스트 테이블 id", "생성", user.toString(), "테스트 유저");
+		History history = HistoryMapper.from(dto);
+		historyRepository.save(history);
+
+		mockMvc.perform(put("/api/v1/history/{historyId}", history.getId()))
+			.andExpect(status().isOk())
+			.andDo(document("delete_history", // 문서 조각 디렉토리 명
+				pathParameters( // 요청 본문 필드 정보 입력
+					parameterWithName("historyId").description("히스토리 아이디")
 				)));
 	}
 
