@@ -468,6 +468,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_히스토리_조회_성공">히스토리 조회 성공</a></li>
 </ul>
 </li>
+<li><a href="#History-삭제">History 삭제</a>
+<ul class="sectlevel2">
+<li><a href="#_히스토리_삭제_성공">히스토리 삭제 성공</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1013,7 +1018,7 @@ Host: localhost:8080</code></pre>
 Content-Type: application/json
 Content-Length: 385
 
-[{"id":1,"tableName":"테스트 테이블","tableId":"테스트 테이블 id","operationType":"생성","changedData":"User(userId=testId, userPassword=1234, userName=test, userType=student, createdAt=2024-12-05T02:14:24.043153200, modifiedAt=2024-12-05T02:14:24.043153200, createdBy=test, modifiedBy=null, deletedYn=Y)","createdAt":null,"createdBy":"테스트 유저","deletedYn":"N"}]</code></pre>
+[{"id":1,"tableName":"테스트 테이블","tableId":"테스트 테이블 id","operationType":"생성","changedData":"User(userId=testId, userPassword=1234, userName=test, userType=student, createdAt=2024-12-07T02:53:38.320768200, modifiedAt=2024-12-07T02:53:38.320768200, createdBy=test, modifiedBy=null, deletedYn=Y)","createdAt":null,"createdBy":"테스트 유저","deletedYn":"N"}]</code></pre>
 </div>
 </div>
 </div>
@@ -1080,11 +1085,55 @@ Content-Length: 385
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="History-삭제"><a class="link" href="#History-삭제">History 삭제</a></h2>
+<div class="sectionbody">
+<hr>
+<div class="sect2">
+<h3 id="_히스토리_삭제_성공"><a class="link" href="#_히스토리_삭제_성공">히스토리 삭제 성공</a></h3>
+<div class="sect3">
+<h4 id="_히스토리_삭제_성공_path_parameters"><a class="link" href="#_히스토리_삭제_성공_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/v1/history/{historyId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>historyId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">히스토리 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_히스토리_삭제_성공_http_response"><a class="link" href="#_히스토리_삭제_성공_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 4
+
+true</code></pre>
+</div>
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-12-05 01:46:48 +0900
+Last updated 2024-12-07 02:29:58 +0900
 </div>
 </div>
 </body>

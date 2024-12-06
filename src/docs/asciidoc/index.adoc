@@ -51,3 +51,12 @@ operation::login_user_failed_password[snippets='form-parameters,http-request,res
 
 operation::histories[snippets='query-parameters,http-request,http-response,response-fields']
 '''
+
+[[History-삭제]]
+== History 삭제
+
+'''
+=== 히스토리 삭제 성공
+
+operation::delete_history[snippets='path-parameters,http-response']
+'''
