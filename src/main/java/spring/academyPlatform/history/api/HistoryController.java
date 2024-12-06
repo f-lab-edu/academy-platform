@@ -27,8 +27,8 @@ public class HistoryController {
 	public ResponseEntity<List<HistorySearchResponse>> getHistory(
 		@RequestParam(required = false) String tableName,
 		@RequestParam(required = false) String operationType,
-		@RequestParam @Pattern(regexp = "\\d{8}", message = "startDate must be in yyyyMMdd format") String startDate,
-		@RequestParam @Pattern(regexp = "\\d{8}", message = "endDate must be in yyyyMMdd format") String endDate,
+		@RequestParam @Pattern(regexp = "\\d{8}", message = "시작일은 다음과 같은 형식입니다. yyyyMMdd format") String startDate,
+		@RequestParam @Pattern(regexp = "\\d{8}", message = "종료일은 다음과 같은 형식입니다. yyyyMMdd format") String endDate,
 		@RequestParam(required = false) String createBy) {
 
 		List<HistorySearchResponse> result = historyService.searchHistory(tableName, operationType, startDate,
