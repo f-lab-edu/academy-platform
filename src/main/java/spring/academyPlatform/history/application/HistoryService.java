@@ -43,6 +43,10 @@ public class HistoryService {
 		History history = historyRepository.findById(historyId)
 			.orElseThrow(() -> new IllegalArgumentException("history is not exist"));
 
+		if (history.getDeletedYn().equals(YnCode.Y)) {
+			throw new IllegalArgumentException("history is deleted");
+		}
+
 		HistoryPatchResponse response = HistoryMapper.fromPatchResponse(history.builder()
 			.id(historyId)
 			.tableName(history.getTableName())
