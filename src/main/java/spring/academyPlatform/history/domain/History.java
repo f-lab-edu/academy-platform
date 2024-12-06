@@ -48,7 +48,7 @@ public class History {
 	@Column(name = "changed_data")
 	private String changedData;
 
-	@Column
+	@Column(updatable = false) // 해당 엔티티를 수정할 시 해당 컬럼은 업데이트 하지 않도록 지정함.
 	@CreatedDate
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
