@@ -9,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.global.util.DateTimeFormatterUtil;
 import spring.academyPlatform.history.dao.HistoryRepository;
 import spring.academyPlatform.history.domain.History;
+import spring.academyPlatform.history.dto.HistoryPatchResponse;
 import spring.academyPlatform.history.dto.HistorySearchResponse;
 import spring.academyPlatform.history.mapper.HistoryMapper;
 
@@ -35,5 +37,23 @@ public class HistoryService {
 		return result.stream()
 			.map(HistoryMapper::fromEntity)
 			.toList();
+	}
+
+	public boolean deleteHistory(Long historyId) {
+		History history = historyRepository.findById(historyId)
+			.orElseThrow(() -> new IllegalArgumentException("history is not exist"));
+
+		HistoryPatchResponse response = HistoryMapper.fromPatchResponse(history.builder()
+			.id(historyId)
+			.tableName(history.getTableName())
+			.createdBy(history.getCreatedBy())
+			.changedData(history.getChangedData())
+			.tableId(history.getTableId())
+			.operationType(history.getOperationType())
+			.deletedYn(YnCode.Y)
+			.build()
+		);
+		historyRepository.save(HistoryMapper.from(response));
+		return true;
 	}
 }
