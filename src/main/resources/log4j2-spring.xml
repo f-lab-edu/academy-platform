@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="pattern">%highlight{[%-5level]} %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%F:%L %M] %msg%n%throwable
+        </Property>
+    </Properties>
+    <!-- ConsoleAppender 설정 -->
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+    </Appenders>
+    >
+
+    <!-- 로그 레벨 설정 -->
+    <Loggers>
+        <!-- 전체 로그 레벨을 INFO로 설정 -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <!-- 패키지별 로깅 레벨 설정 (예: com.example 패키지의 로그 레벨을 DEBUG로 설정) -->
+        <Logger name="spring.academyPlatform" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- p6spy 로거 설정: 로그 레벨 DEBUG -->
+        <Logger name="p6spy" level="debug" additivity="false">
+            <!-- 콘솔과 롤링 파일 Appender에 로그 출력 -->
+            <AppenderRef ref="Console"/>
+        </Logger>
+    </Loggers>
+</Configuration>

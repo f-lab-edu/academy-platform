@@ -17,6 +17,10 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    configureEach {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+
 }
 
 repositories {
@@ -26,10 +30,36 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // log4j2 적용
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    // p6spy 설정
+    implementation 'p6spy:p6spy:3.9.1'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+
+
+    implementation 'org.mindrot:jbcrypt:0.4'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok' // 테스트 의존성 추가
+    testAnnotationProcessor 'org.projectlombok:lombok' // 테스트 의존성 추가
+
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // TestContainers Core
+    testImplementation 'org.testcontainers:testcontainers:1.20.3'
+    // TestContainers MariaDB 모듈
+    testImplementation 'org.testcontainers:mariadb:1.19.0'
+    // TestContainers Spring Extension
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.0'
 }
 
 tasks.named('test') {
