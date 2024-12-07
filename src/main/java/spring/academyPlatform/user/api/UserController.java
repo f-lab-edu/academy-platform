@@ -12,10 +12,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.academyPlatform.global.util.Message;
 import spring.academyPlatform.user.application.UserService;
-import spring.academyPlatform.user.dto.UserInsertParamDto;
-import spring.academyPlatform.user.dto.UserInsertResponseDto;
+import spring.academyPlatform.user.dto.UserCreateRequest;
+import spring.academyPlatform.user.dto.UserCreateResponse;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -25,18 +24,18 @@ public class UserController {
 
 	private final UserService userService;
 
-	@PostMapping("/join-user")
-	public ResponseEntity<Message> insertUser(@Valid @RequestBody UserInsertParamDto dto) {
+
+	@PostMapping("/user")
+	public ResponseEntity<UserCreateResponse> getUser(@Valid @RequestBody UserCreateRequest dto) {
 		try {
-			UserInsertResponseDto result = userService.insertUser(dto);
-			return ResponseEntity.status(HttpStatus.OK)
-				.body(new Message(HttpStatus.OK, "Successfully joined user!", result));
+			UserCreateResponse result = userService.createUser(dto);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(new Message(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
 
 	@PostMapping("/login-user")
 	public ResponseEntity<Message> getLoginUser(@RequestParam String userId, @RequestParam String password,
@@ -51,4 +50,5 @@ public class UserController {
 				.body(new Message(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
 		}
 	}
+
 }
