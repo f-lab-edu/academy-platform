@@ -24,7 +24,6 @@ public class UserController {
 
 	private final UserService userService;
 
-
 	@PostMapping("/user")
 	public ResponseEntity<UserCreateResponse> getUser(@Valid @RequestBody UserCreateRequest dto) {
 		try {
@@ -36,18 +35,15 @@ public class UserController {
 		}
 	}
 
-
-	@PostMapping("/login-user")
-	public ResponseEntity<Message> getLoginUser(@RequestParam String userId, @RequestParam String password,
+	@PostMapping("/login")
+	public ResponseEntity<Boolean> getLoginUser(@RequestParam String userId, @RequestParam String password,
 		HttpSession session) {
 		try {
 			boolean result = userService.authenticate(userId, password, session);
-			return ResponseEntity.status(HttpStatus.OK)
-				.body(new Message(HttpStatus.OK, "Successfully login!", result));
+			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(new Message(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	}
 
