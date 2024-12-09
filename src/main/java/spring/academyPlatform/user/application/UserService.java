@@ -22,6 +22,8 @@ import spring.academyPlatform.user.model.UserTypeCode;
 public class UserService {
 
 	private final UserRepository userRepository;
+	// 매직 스트링을 상수로 정의하여 사용하기
+	private static final String SESSION_USER = "user";
 
 	@Transactional
 	public UserCreateResponse createUser(UserCreateRequest dto) {
@@ -35,7 +37,6 @@ public class UserService {
 		return UserMapper.fromEntity(savedUser);
 	}
 
-
 	public boolean authenticate(String userId, String password, HttpSession session) {
 
 		User user = userRepository.findById(userId)
@@ -44,7 +45,7 @@ public class UserService {
 		try {
 			if (user.getUserId().equals(userId) && BcryptPasswordEncryptor.checkPassword(password,
 				user.getUserPassword())) {
-				session.setAttribute("user", user.getUserName());
+				session.setAttribute(SESSION_USER, user.getUserName());
 				log.info(session.getId());
 			}
 			return true;
@@ -52,7 +53,7 @@ public class UserService {
 			throw new IllegalArgumentException(e.getMessage(), e.getCause());
 		}
 	}
-  
+
 	public UserTypeCode convertToEnum(String userType) {
 		return Arrays.stream(UserTypeCode.values())
 			.filter(e -> e.name().equalsIgnoreCase(userType))
