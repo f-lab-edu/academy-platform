@@ -6,9 +6,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class BcryptPasswordEncryptor {
 
+	static int cost = 8;  // 반복 횟수 (보통 10~12 권장)
+
 	// Bcrypt를 사용해 비밀번호를 해싱하는 메서드
 	public static String hashPassword(String password) {
-		int cost = 8;  // 반복 횟수 (보통 10~12 권장)
+
 		return BCrypt.hashpw(password, BCrypt.gensalt(cost));
 	}
 
