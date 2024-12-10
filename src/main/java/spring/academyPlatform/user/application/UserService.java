@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ import spring.academyPlatform.user.model.UserTypeCode;
 public class UserService {
 
 	private final UserRepository userRepository;
+	// 매직 스트링을 상수로 정의하여 사용하기
+	private static final String SESSION_USER = "user";
 
 	@Transactional
 	public UserCreateResponse createUser(UserCreateRequest dto) {
@@ -32,6 +35,23 @@ public class UserService {
 		User savedUser = userRepository.save(user);
 
 		return UserMapper.fromEntity(savedUser);
+	}
+
+	public boolean authenticate(String userId, String password, HttpSession session) {
+
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException(" 해당 아이디는 존재하지 않습니다."));
+
+		try {
+			if (user.getUserId().equals(userId) && BcryptPasswordEncryptor.checkPassword(password,
+				user.getUserPassword())) {
+				session.setAttribute(SESSION_USER, user.getUserName());
+				log.info(session.getId());
+			}
+			return true;
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e.getMessage(), e.getCause());
+		}
 	}
 
 	public UserTypeCode convertToEnum(String userType) {
