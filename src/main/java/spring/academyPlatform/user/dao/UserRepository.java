@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import spring.academyPlatform.user.domain.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
-	User findByUserName(String username);
+public interface UserRepository extends JpaRepository<User, Long> {
+	
 }
