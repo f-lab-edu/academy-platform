@@ -29,3 +29,10 @@ decorator:
     p6spy:
       enable-logging: true
 
+
+server:
+  servlet:
+    session:
+      timeout: 2m # 세션 유지 시간 설정
+
+

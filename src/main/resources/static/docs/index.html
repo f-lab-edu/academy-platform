@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.18">
 <meta name="author" content="academy-platform">
 <title>REST Docs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
@@ -141,7 +141,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -163,7 +163,6 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
-body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -210,10 +209,13 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
 .sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
-.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
-.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
 .literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
@@ -329,7 +331,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -392,7 +394,7 @@ b.conum *{color:inherit!important}
 dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
 h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
 p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p,blockquote,dt,td.content,span.alt,summary{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -435,132 +437,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-/*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
-.tabs {
-    margin-bottom: 1.25em;
-}
-
-.tablist > ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.tablist > ul li {
-    align-items: center;
-    background-color: #fff;
-    cursor: pointer;
-    display: flex;
-    font-weight: bold;
-    line-height: 1.5;
-    padding: 0.25em 1em;
-    position: relative;
-}
-
-.tablist > ul li:focus-visible {
-    outline: none;
-}
-
-.tablist.ulist,
-.tablist.ulist > ul li {
-    margin: 0;
-}
-
-.tablist.ulist > ul li + li {
-    margin-left: 0.25em;
-}
-
-.tabs .tablist li::after {
-    content: "";
-    display: block;
-    height: 1px;
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-}
-
-.tabs.is-loading .tablist li:not(:first-child),
-.tabs:not(.is-loading) .tablist li:not(.is-selected) {
-    background-color: #f5f5f5;
-}
-
-.tabs.is-loading .tablist li:first-child::after,
-.tabs:not(.is-loading) .tablist li.is-selected::after {
-    background-color: #fff;
-}
-
-/*
-.tabs:not(.is-loading) .tablist li,
-.tabs:not(.is-loading) .tablist li::after {
-  transition: background-color 200ms ease-in-out;
-}
-*/
-
-.tablist > ul p {
-    line-height: inherit;
-    margin: 0;
-}
-
-.tabpanel {
-    background-color: #fff;
-    padding: 1.25em;
-}
-
-.tablist > ul li,
-.tabpanel {
-    border: 1px solid #dcdcdc;
-}
-
-.tablist > ul li {
-    border-bottom: 0;
-}
-
-.tabs.is-loading .tabpanel + .tabpanel,
-.tabs:not(.is-loading) .tabpanel.is-hidden {
-    display: none;
-}
-
-.tabpanel > :first-child {
-    margin-top: 0;
-}
-
-/* #content is a signature of the Asciidoctor standalone HTML output */
-#content .tabpanel > :last-child,
-#content .tabpanel > :last-child > :last-child,
-#content .tabpanel > :last-child > :last-child > li:last-child > :last-child {
-    margin-bottom: 0;
-}
-
-.tablecontainer {
-    overflow-x: auto;
-}
-
-#content .tablecontainer {
-    margin-bottom: 1.25em;
-}
-
-#content .tablecontainer > table.tableblock {
-    margin-bottom: 0;
-}
-</style>
 </head>
 <body class="book">
 <div id="header">
 <h1>REST Docs</h1>
 <div class="details">
 <span id="author" class="author">academy-platform</span><br>
+<span id="revnumber">version 0.0.1-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#User-API">User API</a>
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#User-API">User API</a></li>
+<li><a href="#User-회원가입">회원가입</a>
 <ul class="sectlevel2">
-<li><a href="#User-회원-가입">User 회원 가입</a></li>
-<li><a href="#User-로그인">User 로그인</a></li>
+<li><a href="#_성공적인_회원_가입">성공적인 회원 가입</a></li>
+<li><a href="#_중복된_아이디로_가입_실패">중복된 아이디로 가입 실패</a></li>
+</ul>
+</li>
+<li><a href="#User-로그인">User 로그인</a>
+<ul class="sectlevel2">
+<li><a href="#_로그인_성공">로그인 성공</a></li>
+<li><a href="#_잘못된_아이디_입력">잘못된 아이디 입력</a></li>
+<li><a href="#_잘못된_비밀번호_입력">잘못된 비밀번호 입력</a></li>
 </ul>
 </li>
 </ul>
@@ -568,12 +468,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
+<h2 id="_introduction"><a class="link" href="#_introduction">Introduction</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document describes the academy_platform API endpoints.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="User-API"><a class="link" href="#User-API">User API</a></h2>
 <div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="User-회원가입"><a class="link" href="#User-회원가입">회원가입</a></h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="User-회원-가입"><a class="link" href="#User-회원-가입">User 회원 가입</a></h3>
+<h3 id="_성공적인_회원_가입"><a class="link" href="#_성공적인_회원_가입">성공적인 회원 가입</a></h3>
 <div class="sect3">
-<h4 id="User-회원-가입_http_request"><a class="link" href="#User-회원-가입_http_request">HTTP request</a></h4>
+<h4 id="_성공적인_회원_가입_http_request"><a class="link" href="#_성공적인_회원_가입_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/user/join-user HTTP/1.1
@@ -586,7 +500,46 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="User-회원-가입_http_response"><a class="link" href="#User-회원-가입_http_response">HTTP response</a></h4>
+<h4 id="_성공적인_회원_가입_request_fields"><a class="link" href="#_성공적인_회원_가입_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userPassword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 비밀번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 타입</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_성공적인_회원_가입_http_response"><a class="link" href="#_성공적인_회원_가입_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -598,7 +551,7 @@ Content-Length: 162
 </div>
 </div>
 <div class="sect3">
-<h4 id="User-회원-가입_response_fields"><a class="link" href="#User-회원-가입_response_fields">Response fields</a></h4>
+<h4 id="_성공적인_회원_가입_response_fields"><a class="link" href="#_성공적인_회원_가입_response_fields">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -651,24 +604,92 @@ Content-Length: 162
 </tbody>
 </table>
 </div>
-</div>
-<div class="sect2">
-<h3 id="User-로그인"><a class="link" href="#User-로그인">User 로그인</a></h3>
 <div class="sect3">
-<h4 id="User-로그인_http_request"><a class="link" href="#User-로그인_http_request">HTTP request</a></h4>
+<h4 id="_성공적인_회원_가입_response_body"><a class="link" href="#_성공적인_회원_가입_response_body">Response body</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/user/login-user HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+<pre class="highlight nowrap"><code class="language-json" data-lang="json">{"status":200,"message":"Successfully joined user!","data":{"userId":"test9","userName":"test_name","userType":"student","createdBy":"test_name","deletedYn":"Y"}}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_중복된_아이디로_가입_실패"><a class="link" href="#_중복된_아이디로_가입_실패">중복된 아이디로 가입 실패</a></h3>
+<div class="sect3">
+<h4 id="_중복된_아이디로_가입_실패_http_request"><a class="link" href="#_중복된_아이디로_가입_실패_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/user/join-user HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 88
 Host: localhost:8080
-Content-Length: 30
 
-userId=test9&amp;password=password</code></pre>
+{"userId":"test9","userPassword":"password","userName":"test_name","userType":"student"}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="User-로그인_form_parameters"><a class="link" href="#User-로그인_form_parameters">Form parameters</a></h4>
+<h4 id="_중복된_아이디로_가입_실패_request_fields"><a class="link" href="#_중복된_아이디로_가입_실패_request_fields">Request fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userPassword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 비밀번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 타입</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_중복된_아이디로_가입_실패_http_response"><a class="link" href="#_중복된_아이디로_가입_실패_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
+Content-Type: application/json
+Content-Length: 61
+
+{"status":409,"message":"User ID already exists","data":null}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="User-로그인"><a class="link" href="#User-로그인">User 로그인</a></h2>
+<div class="sectionbody">
+<hr>
+<div class="sect2">
+<h3 id="_로그인_성공"><a class="link" href="#_로그인_성공">로그인 성공</a></h3>
+<div class="sect3">
+<h4 id="_로그인_성공_form_parameters"><a class="link" href="#_로그인_성공_form_parameters">Form parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -693,7 +714,20 @@ userId=test9&amp;password=password</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="User-로그인_http_response"><a class="link" href="#User-로그인_http_response">HTTP response</a></h4>
+<h4 id="_로그인_성공_http_request"><a class="link" href="#_로그인_성공_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/user/login-user HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 30
+
+userId=test9&amp;password=password</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_로그인_성공_http_response"><a class="link" href="#_로그인_성공_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -705,7 +739,7 @@ Content-Length: 58
 </div>
 </div>
 <div class="sect3">
-<h4 id="User-로그인_response_fields"><a class="link" href="#User-로그인_response_fields">Response fields</a></h4>
+<h4 id="_로그인_성공_response_fields"><a class="link" href="#_로그인_성공_response_fields">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -738,143 +772,191 @@ Content-Length: 58
 </tbody>
 </table>
 </div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_잘못된_아이디_입력"><a class="link" href="#_잘못된_아이디_입력">잘못된 아이디 입력</a></h3>
+<div class="sect3">
+<h4 id="_잘못된_아이디_입력_form_parameters"><a class="link" href="#_잘못된_아이디_입력_form_parameters">Form parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Password</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_잘못된_아이디_입력_http_request"><a class="link" href="#_잘못된_아이디_입력_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/user/login-user HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 34
+
+userId=test10000&amp;password=password</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_잘못된_아이디_입력_response_fields"><a class="link" href="#_잘못된_아이디_입력_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 상태 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 성공 여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_잘못된_아이디_입력_http_response"><a class="link" href="#_잘못된_아이디_입력_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 85
+
+{"status":400,"message":"해당 아이디는 존재하지 않습니다.","data":null}</code></pre>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_잘못된_비밀번호_입력"><a class="link" href="#_잘못된_비밀번호_입력">잘못된 비밀번호 입력</a></h3>
+<div class="sect3">
+<h4 id="_잘못된_비밀번호_입력_form_parameters"><a class="link" href="#_잘못된_비밀번호_입력_form_parameters">Form parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Password</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_잘못된_비밀번호_입력_http_request"><a class="link" href="#_잘못된_비밀번호_입력_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/user/login-user HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
+Content-Length: 35
+
+userId=test200&amp;password=password123</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_잘못된_비밀번호_입력_response_fields"><a class="link" href="#_잘못된_비밀번호_입력_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 상태 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 성공 여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_잘못된_비밀번호_입력_http_response"><a class="link" href="#_잘못된_비밀번호_입력_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 84
+
+{"status":400,"message":"입력한 정보가 올바르지 않습니다","data":null}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-11-17 16:34:41 +0900
+Version 0.0.1-SNAPSHOT<br>
+Last updated 2024-12-09 21:39:19 +0900
 </div>
 </div>
-<script>
-;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
-  'use strict'
-
-  var config = (document.currentScript || {}).dataset || {}
-  var forEach = Array.prototype.forEach
-
-  init(document.querySelectorAll('.tabs'))
-
-  function init (tabsBlocks) {
-    if (!tabsBlocks.length) return
-    forEach.call(tabsBlocks, function (tabs) {
-      var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
-      var tablist = tabs.querySelector('.tablist ul')
-      tablist.setAttribute('role', 'tablist')
-      var start
-      forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
-        tab.tabIndex = -1
-        tab.setAttribute('role', tab.classList.add('tab') || 'tab')
-        var id, anchor, syncId
-        if (!(id = tab.id) && (anchor = tab.querySelector('a[id]'))) {
-          id = tab.id = anchor.parentNode.removeChild(anchor).id
-        }
-        var panel = id && tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
-        if (!panel) return idx ? undefined : toggleSelected(tab, true) // invalid state
-        syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
-        (syncIds[(tab.dataset.syncId = syncId)] = tab)
-        idx || (syncIds && (start = { tab: tab, panel: panel })) ? toggleHidden(panel, true) : toggleSelected(tab, true)
-        tab.setAttribute('aria-controls', panel.id)
-        panel.setAttribute('role', 'tabpanel')
-        var onClick = syncId === undefined ? activateTab : activateTabSync
-        tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
-      })
-      if (!tabs.closest('.tabpanel')) {
-        forEach.call(tabs.querySelectorAll('.tabpanel table.tableblock'), function (table) {
-          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
-          table.parentNode.insertBefore(container, table).appendChild(table)
-        })
-      }
-      if (start) {
-        var syncGroupId
-        for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
-          if (!(className = lst.item(i)).startsWith('data-sync-group-id=')) continue
-          tabs.dataset.syncGroupId = syncGroupId = lst.remove(className) || className.slice(19).replace(/\u00a0/g, ' ')
-          break
-        }
-        if (syncGroupId === undefined) tabs.dataset.syncGroupId = syncGroupId = Object.keys(syncIds).sort().join('|')
-        var preferredSyncId = 'syncStorageKey' in config &&
-          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
-        var tab = preferredSyncId && syncIds[preferredSyncId]
-        tab && Object.assign(start, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
-        toggleSelected(start.tab, true) || toggleHidden(start.panel, false)
-      }
-    })
-    onHashChange()
-    toggleClassOnEach(tabsBlocks, 'is-loading', 'remove')
-    window.setTimeout(toggleClassOnEach.bind(null, tabsBlocks, 'is-loaded', 'add'), 0)
-    window.addEventListener('hashchange', onHashChange)
-  }
-
-  function activateTab (e) {
-    var tab = this.tab
-    var tabs = this.tabs || (this.tabs = tab.closest('.tabs'))
-    var panel = this.panel || (this.panel = document.getElementById(tab.getAttribute('aria-controls')))
-    querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (el) {
-      toggleSelected(el, el === tab)
-    })
-    querySelectorWithSiblings(tabs, '.tabpanel', 'tabpanel').forEach(function (el) {
-      toggleHidden(el, el !== panel)
-    })
-    if (!this.isSync && 'syncStorageKey' in config && 'syncGroupId' in tabs.dataset) {
-      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroupId
-      window[(config.syncStorageScope || 'local') + 'Storage'].setItem(storageKey, tab.dataset.syncId)
-    }
-    if (!e) return
-    var loc = window.location
-    var hashIdx = loc.hash ? loc.href.indexOf('#') : -1
-    if (~hashIdx) window.history.replaceState(null, '', loc.href.slice(0, hashIdx))
-    e.preventDefault()
-  }
-
-  function activateTabSync (e) {
-    activateTab.call(this, e)
-    var thisTabs = this.tabs
-    var thisTab = this.tab
-    var initialY = thisTabs.getBoundingClientRect().y
-    forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
-      if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
-      querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (tab) {
-        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
-      })
-    })
-    var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
-    if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
-  }
-
-  function querySelectorWithSiblings (scope, selector, siblingClass) {
-    var el = scope.querySelector(selector)
-    if (!el) return []
-    var result = [el]
-    while ((el = el.nextElementSibling) && el.classList.contains(siblingClass)) result.push(el)
-    return result
-  }
-
-  function toggleClassOnEach (elements, className, method) {
-    forEach.call(elements, function (el) {
-      el.classList[method](className)
-    })
-  }
-
-  function toggleHidden (el, state) {
-    el.classList[(el.hidden = state) ? 'add' : 'remove']('is-hidden')
-  }
-
-  function toggleSelected (el, state) {
-    el.setAttribute('aria-selected', '' + state)
-    el.classList[state ? 'add' : 'remove']('is-selected')
-    el.tabIndex = state ? 0 : -1
-  }
-
-  function onHashChange () {
-    var id = window.location.hash.slice(1)
-    if (!id) return
-    var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
-    if (!(tab && tab.classList.contains('tab'))) return
-    'syncId' in tab.dataset ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
-  }
-})()
-</script>
 </body>
 </html>

@@ -76,7 +76,8 @@ class UserControllerTest extends AbstractIntegrationTest {
 					fieldWithPath("userName").description("유저 이름"),
 					fieldWithPath("userType").description("유저 타입")),
 				responseFields( // 응답 필드 정보 입력
-					fieldWithPath("status").description("응답 상태 코드"), fieldWithPath("message").description("응답 메시지"),
+					fieldWithPath("status").description("응답 상태 코드"),
+					fieldWithPath("message").description("응답 메시지"),
 					fieldWithPath("data.userId").description("유저 아이디"),
 					fieldWithPath("data.userName").description("유저 이름"),
 					fieldWithPath("data.userType").description("유저 타입"),
@@ -85,11 +86,48 @@ class UserControllerTest extends AbstractIntegrationTest {
 	}
 
 	@Test
-	void login_user() throws Exception {
+	@Order(2)
+	@DisplayName("중복된 아이디로 가입시 오류발생 테스트")
+	void join_user_with_duplicate_id() throws Exception {
+		String id = "test9";
+
+		// 중복된 ID 생성 요청 DTO
+		UserInsertParamDto dto2 = UserInsertParamDto.builder()
+			.userId(id)
+			.userPassword("password")
+			.userName("test_name")
+			.userType("student")
+			.build();
+
+		mockMvc.perform(post("/api/v1/user/join-user")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(dto2)))
+			.andExpect(status().isConflict()) // 409 Conflict 기대
+			.andExpect(jsonPath("$.status").value(409))
+			.andExpect(jsonPath("$.message").value("User ID already exists"))
+			.andDo(document("join_user_fail_duplicate_id",
+				requestFields(
+					fieldWithPath("userId").description("유저 아이디"),
+					fieldWithPath("userPassword").description("유저 비밀번호"),
+					fieldWithPath("userName").description("유저 이름"),
+					fieldWithPath("userType").description("유저 타입")
+				),
+				responseFields(
+					fieldWithPath("status").description("HTTP 상태 코드"),
+					fieldWithPath("message").description("에러 메시지"),
+					fieldWithPath("data").description("리턴값 없음")
+				)
+			));
+	}
+
+	@Test
+	@Order(3)
+	@DisplayName("로그인 성공 테스트")
+	void login_success() throws Exception {
 
 		// 사용자 생성
 		UserInsertParamDto dto = UserInsertParamDto.builder()
-			.userId("test9")
+			.userId("test11")
 			.userPassword("password")
 			.userName("test_name")
 			.userType("student")
@@ -98,7 +136,7 @@ class UserControllerTest extends AbstractIntegrationTest {
 		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
-		this.mockMvc.perform(post("/api/v1/user/login-user")
+		mockMvc.perform(post("/api/v1/user/login-user")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("userId", "test9")
 				.param("password", "password"))
@@ -112,6 +150,81 @@ class UserControllerTest extends AbstractIntegrationTest {
 					)
 				)
 			);
+	}
+
+	@Test
+	@Order(4)
+	@DisplayName("잘못된 아이디 입력시 오류발생")
+	void login_failed_with_id() throws Exception {
+
+		// 사용자 생성
+		UserInsertParamDto dto = UserInsertParamDto.builder()
+			.userId("test12")
+			.userPassword("password")
+			.userName("test_name")
+			.userType("student")
+			.build();
+
+		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
+
+		mockMvc.perform(post("/api/v1/user/login-user")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("userId", "test10000")
+				.param("password", "password"))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.status").value(400))
+			.andExpect(jsonPath("$.message").value("해당 아이디는 존재하지 않습니다."))
+			.andDo(document("login_user_failed_id",
+				formParameters(
+					parameterWithName("userId").description("User ID"),
+					parameterWithName("password").description("User Password")
+				),
+				responseFields(
+					fieldWithPath("status").description("응답 상태 코드"),
+					fieldWithPath("message").description("응답 메시지"),
+					fieldWithPath("data").description("로그인 성공 여부")
+				)
+			));
+
+	}
+
+	@Test
+	@Order(5)
+	@DisplayName("아이디에 해당하는 비밀번호가 아닐때 오류발생")
+	void login_failed_with_password() throws Exception {
+
+		// 사용자 생성
+		UserInsertParamDto dto = UserInsertParamDto.builder()
+			.userId("test200")
+			.userPassword("password")
+			.userName("test_name")
+			.userType("student")
+			.build();
+
+		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
+
+		mockMvc.perform(post("/api/v1/user/login-user")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("userId", "test200")
+				.param("password", "password123"))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.status").value(400))
+			.andExpect(jsonPath("$.message").value("입력한 정보가 올바르지 않습니다"))
+			.andDo(document("login_user_failed_password",
+				formParameters(
+					parameterWithName("userId").description("User ID"),
+					parameterWithName("password").description("User Password")
+				),
+				responseFields(
+					fieldWithPath("status").description("응답 상태 코드"),
+					fieldWithPath("message").description("응답 메시지"),
+					fieldWithPath("data").description("로그인 성공 여부")
+				)
+			));
+
+
 	}
 
 }
