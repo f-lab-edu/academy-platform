@@ -1,4 +1,4 @@
-package spring.academyPlatform.global.config;
+package spring.academyPlatform.global.config.P6spy;
 
 import java.util.Locale;
 

@@ -5,10 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,18 +30,6 @@ public class UserController {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<Boolean> getLoginUser(@RequestParam String userId, @RequestParam String password,
-		HttpSession session) {
-		try {
-			boolean result = userService.authenticate(userId, password, session);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	}
 
