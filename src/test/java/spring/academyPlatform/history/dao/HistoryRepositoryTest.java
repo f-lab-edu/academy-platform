@@ -2,6 +2,8 @@ package spring.academyPlatform.history.dao;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.*;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.academyPlatform.config.AbstractIntegrationTest;
@@ -36,6 +41,8 @@ class HistoryRepositoryTest extends AbstractIntegrationTest {
 	private UserRepository userRepository;
 	@Autowired
 	private HistoryRepository historyRepository;
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@BeforeEach
 	void setUp() {
@@ -46,7 +53,7 @@ class HistoryRepositoryTest extends AbstractIntegrationTest {
 
 	@Test
 	@DisplayName("히스토리 생성")
-	void create_history() {
+	void create_history() throws JsonProcessingException {
 		User user = userRepository.save(User.builder()
 			.userId("testId")
 			.userType("student")
@@ -55,13 +62,17 @@ class HistoryRepositoryTest extends AbstractIntegrationTest {
 			.createdBy("test")
 			.deletedYn("Y")
 			.build());
+
 		// when
-		HistoryCreateRequest dto2 = new HistoryCreateRequest("테스트 테이블", "테스트 테이블 id", "생성", user.toString(), "테스트 유저");
-		History history = HistoryMapper.from(dto2);
+		Map<String, Object> changedData = objectMapper.convertValue(user, Map.class);
+		HistoryCreateRequest dto2 = new HistoryCreateRequest("테스트 테이블", "테스트 테이블 id", "생성", changedData, "테스트 유저");
+		String resultData = objectMapper.writeValueAsString(changedData);
+		History history = HistoryMapper.from(dto2, resultData);
 		historyRepository.save(history);
 		// then
 		assertThat(dto2.getCreatedBy()).isEqualTo(history.getCreatedBy());
 		assertThat(dto2.getTableName()).isEqualTo(history.getTableName());
 	}
-	
+
 }
+

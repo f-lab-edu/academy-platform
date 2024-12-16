@@ -6,6 +6,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.academyPlatform.config.AbstractIntegrationTest;
@@ -40,6 +44,8 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 	private UserRepository userRepository;
 	@Autowired
 	private HistoryRepository historyRepository;
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Test
 	@DisplayName("히스토리 조회 테스트")
@@ -55,9 +61,13 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 			.deletedYn("Y")
 			.build());
 
-		HistoryCreateRequest dto2 = new HistoryCreateRequest("테스트 테이블", "테스트 테이블 id", "생성", user.toString(), "테스트 유저");
+		Map<String, Object> changedData = objectMapper.convertValue(user, Map.class);
 
-		History history = HistoryMapper.from(dto2);
+		HistoryCreateRequest dto2 = new HistoryCreateRequest("테스트 테이블", "테스트 테이블 id", "생성", changedData, "테스트 유저");
+
+		String resultData = objectMapper.writeValueAsString(changedData);
+
+		History history = HistoryMapper.from(dto2, resultData);
 		historyRepository.save(history);
 
 		HistorySearchRequest dto = HistorySearchRequest.builder()
@@ -67,13 +77,12 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 			.endDate("20241231")
 			.build();
 
-		mockMvc.perform(get("/api/v1/history/histories")
+		mockMvc.perform(get("/api/v1/histories/history")
 				.param("tableName", dto.getTableName())
 				.param("operationType", dto.getOperationType())
 				.param("startDate", dto.getStartDate())
 				.param("endDate", dto.getEndDate())
 				.contentType(MediaType.APPLICATION_JSON))
-			.andDo(result -> log.info("Response: {}", result.getResponse().getContentAsString()))
 			.andExpect(status().isOk())
 			.andDo(document("histories", // 문서 조각 디렉토리 명
 				queryParameters( // 요청 본문 필드 정보 입력
@@ -95,9 +104,9 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 	}
 
 	@Test
-	@DisplayName("히스토리 삭제 테스트")
+	@DisplayName("히스토리 생성 성공 테스트")
 	@Transactional
-	void delete_history() throws Exception {
+	void create_history_success() throws Exception {
 
 		User user = userRepository.save(User.builder()
 			.userId("testId")
@@ -108,16 +117,49 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 			.deletedYn("Y")
 			.build());
 
-		HistoryCreateRequest dto = new HistoryCreateRequest("테스트 테이블", "테스트 테이블 id", "생성", user.toString(), "테스트 유저");
-		History history = HistoryMapper.from(dto);
-		historyRepository.save(history);
+		// User 객체를 String으로 변경
+		Map<String, Object> changedData = objectMapper.convertValue(user, Map.class);
 
-		mockMvc.perform(put("/api/v1/history/{historyId}", history.getId()))
+		log.info("changedData: {}", changedData);
+		HistoryCreateRequest dto = new HistoryCreateRequest(
+			"테스트 테이블",
+			"테스트 테이블 id",
+			"생성",
+			changedData,
+			"테스트 유저");
+
+		mockMvc.perform(post("/api/v1/histories/history")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(dto)))
+			.andDo(result -> log.info("Response: {}", result.getResponse().getContentAsString()))
 			.andExpect(status().isOk())
-			.andDo(document("delete_history", // 문서 조각 디렉토리 명
-				pathParameters( // 요청 본문 필드 정보 입력
-					parameterWithName("historyId").description("히스토리 아이디")
-				)));
+			.andDo(document("create_history", // 문서 조각 디렉토리 명
+				requestFields( // 요청 본문 필드 정보 입력
+					fieldWithPath("tableName").description("테이블명"),
+					fieldWithPath("tableId").description("테이블 아이디"),
+					fieldWithPath("operationType").description("작업형식"),
+					fieldWithPath("entityData").description("변경정보").optional(), // 상위 필드
+					fieldWithPath("entityData.userId").description("사용자 ID"),
+					fieldWithPath("entityData.userPassword").description("사용자 비밀번호"),
+					fieldWithPath("entityData.userName").description("사용자 이름"),
+					fieldWithPath("entityData.userType").description("사용자 유형"),
+					fieldWithPath("entityData.createdAt").description("생성 일시"),
+					fieldWithPath("entityData.modifiedAt").description("수정 일시"),
+					fieldWithPath("entityData.createdBy").description("생성자"),
+					fieldWithPath("entityData.modifiedBy").description("수정자"),
+					fieldWithPath("entityData.deletedYn").description("삭제 여부"),
+					fieldWithPath("createdBy").description("생성자")),
+				responseFields( // 응답 필드 정보 입력
+					fieldWithPath("id").description("히스토리 아이디"),
+					fieldWithPath("tableName").description("테이블명"),
+					fieldWithPath("tableId").description("테이블 아이디"),
+					fieldWithPath("operationType").description("작업형식"),
+					fieldWithPath("changedData").description("변경정보"),
+					fieldWithPath("createdAt").description("생성일시"),
+					fieldWithPath("createdBy").description("생성자"),
+					fieldWithPath("deletedYn").description("삭제여부")
+				))
+			);
 	}
 
 }
