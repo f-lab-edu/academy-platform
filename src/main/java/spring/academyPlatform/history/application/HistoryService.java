@@ -3,17 +3,21 @@ package spring.academyPlatform.history.application;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.global.util.DateTimeFormatterUtil;
 import spring.academyPlatform.history.dao.HistoryRepository;
 import spring.academyPlatform.history.domain.History;
-import spring.academyPlatform.history.dto.HistoryPatchResponse;
+import spring.academyPlatform.history.dto.HistoryCreateRequest;
+import spring.academyPlatform.history.dto.HistoryCreateResponse;
 import spring.academyPlatform.history.dto.HistorySearchResponse;
 import spring.academyPlatform.history.mapper.HistoryMapper;
 
@@ -23,6 +27,7 @@ import spring.academyPlatform.history.mapper.HistoryMapper;
 public class HistoryService {
 
 	private final HistoryRepository historyRepository;
+	private final ObjectMapper objectMapper;
 
 	@Transactional(readOnly = true)
 	public List<HistorySearchResponse> searchHistory(String tableName, String operationType, String startDate,
@@ -39,25 +44,19 @@ public class HistoryService {
 			.toList();
 	}
 
-	public boolean deleteHistory(Long historyId) {
-		History history = historyRepository.findById(historyId)
-			.orElseThrow(() -> new IllegalArgumentException("history is not exist"));
-
-		if (history.getDeletedYn().equals(YnCode.Y)) {
-			throw new IllegalArgumentException("history is deleted");
+	@Transactional
+	public HistoryCreateResponse createHistory(HistoryCreateRequest historyCreateRequest) {
+		Map<String, Object> changedMap = historyCreateRequest.getEntityData(); // json 데이터를 String 형식으로 직렬화
+		String changedDataJson;
+		try {
+			changedDataJson = objectMapper.writeValueAsString(changedMap);
+		} catch (JsonProcessingException e) {
+			log.error("serialize error ", e);
+			throw new RuntimeException("Failed to serialize changed data", e);
 		}
 
-		HistoryPatchResponse response = HistoryMapper.fromPatchResponse(history.builder()
-			.id(historyId)
-			.tableName(history.getTableName())
-			.createdBy(history.getCreatedBy())
-			.changedData(history.getChangedData())
-			.tableId(history.getTableId())
-			.operationType(history.getOperationType())
-			.deletedYn(YnCode.Y)
-			.build()
-		);
-		historyRepository.save(HistoryMapper.from(response));
-		return true;
+		History result = historyRepository.save(HistoryMapper.from(historyCreateRequest, changedDataJson));
+		return HistoryMapper.fromCreateResponse(result);
 	}
+
 }
