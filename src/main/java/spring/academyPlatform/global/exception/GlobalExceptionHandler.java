@@ -2,12 +2,15 @@ package spring.academyPlatform.global.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
 	// @Pattern 어노테이션을 사용하여 @RequestParam을 검증할 때, 위반 시 발생하는 예외는 ConstraintViolationException 로 받는다.
@@ -16,6 +19,13 @@ public class GlobalExceptionHandler {
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(ex.getMessage());
+	}
+
+	// @Valid 통해 검증시 위반사항이 발생하여 이를 받는 예외처리
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<String> processValidationError(MethodArgumentNotValidException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(e.getMessage());
 	}
 
 	/**
