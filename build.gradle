@@ -36,6 +36,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    // redis 연동
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // redis에 세션을 저장하기 위한 의존성
+    implementation 'org.springframework.session:spring-session-data-redis'
+
     // log4j2 적용
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     // p6spy 설정
