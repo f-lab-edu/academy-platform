@@ -72,6 +72,8 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.20.3'
     // TestContainers MariaDB 모듈
     testImplementation 'org.testcontainers:mariadb:1.19.0'
+    // TestContainers redis 모듈
+    testImplementation "com.redis.testcontainers:testcontainers-redis-junit:1.6.4"
     // TestContainers Spring Extension
     testImplementation 'org.testcontainers:junit-jupiter:1.19.0'
 
