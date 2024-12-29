@@ -72,4 +72,20 @@ public class UserController {
 				.body(new Message(HttpStatus.BAD_REQUEST, e.getMessage()));
 		}
 	}
+
+	/**
+	 * HttpSession , HttpServletRequest/response
+	 *
+	 *
+	 */
+	@PostMapping("/logout")
+	public ResponseEntity<String> logoutUser(HttpSession session) {
+		if (session != null) {
+			session.invalidate();
+		} else {
+			throw new IllegalStateException("로그인 상태가 아닙니다.");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("Successfully logged out!");
+	}
+
 }
