@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
@@ -28,12 +27,11 @@ import spring.academyPlatform.user.domain.User;
 
 /**
  * @DataJPATest JPA 관련 빈만 로드함.
- * 기타 다른 설정들은 추가해야합니다.
- * @Import(QueryDslConfig.class, JacksonAutoConfiguration.class) QueryDsl 설정 추가, Jackson 관련 자동 구성 추가
+ * @Import(QueryDslConfig.class) QueryDsl 설정 추가
  * @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) @DataJpaTest가 테스트컨테이너를 사용하도록함
  */
 @DataJpaTest
-@Import({QueryDslConfig.class, JacksonAutoConfiguration.class}) // QueryDsl 설정 추가
+@Import(QueryDslConfig.class) // QueryDsl 설정 추가
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // @DataJpaTest가 테스트컨테이너를 사용하도록함
 @ActiveProfiles("test") // 'test' 프로파일 활성화
 @Slf4j
