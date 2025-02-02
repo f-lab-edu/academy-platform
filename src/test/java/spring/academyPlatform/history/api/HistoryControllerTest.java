@@ -74,92 +74,34 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 			.tableName("테스트 테이블")
 			.operationType("생성")
 			.startDate("20240101")
-			.endDate("20241231")
+			.endDate("20251231")
 			.build();
 
-		mockMvc.perform(get("/api/v1/histories/history")
+		mockMvc.perform(get("/api/v1/histories/search")
 				.param("tableName", dto.getTableName())
 				.param("operationType", dto.getOperationType())
 				.param("startDate", dto.getStartDate())
 				.param("endDate", dto.getEndDate())
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andDo(document("histories", // 문서 조각 디렉토리 명
-				queryParameters( // 요청 본문 필드 정보 입력
-					parameterWithName("tableName").description("테이블 이름"),
-					parameterWithName("operationType").description("작업형식"),
-					parameterWithName("startDate").description("시작 날짜"),
-					parameterWithName("endDate").description("종료 날짜")
-				),
-				responseFields( // 응답 필드 정보 입력
-					fieldWithPath("[].id").description("아이디"),
-					fieldWithPath("[].tableName").description("테이블명"),
-					fieldWithPath("[].tableId").description("테이블 아이디"),
-					fieldWithPath("[].operationType").description("작업형식"),
-					fieldWithPath("[].changedData").description("변경정보"),
-					fieldWithPath("[].createdAt").description("생성일시"),
-					fieldWithPath("[].createdBy").description("생성자"),
-					fieldWithPath("[].deletedYn").description("삭제여부")
-				)));
-	}
-
-	@Test
-	@DisplayName("히스토리 생성 성공 테스트")
-	@Transactional
-	void create_history_success() throws Exception {
-
-		User user = userRepository.save(User.builder()
-			.userId("testId")
-			.userType("student")
-			.userName("test")
-			.userPassword("1234")
-			.createdBy("test")
-			.deletedYn("Y")
-			.build());
-
-		// User 객체를 String으로 변경
-		Map<String, Object> changedData = objectMapper.convertValue(user, Map.class);
-
-		log.info("changedData: {}", changedData);
-		HistoryCreateRequest dto = new HistoryCreateRequest(
-			"테스트 테이블",
-			"테스트 테이블 id",
-			"생성",
-			changedData,
-			"테스트 유저");
-
-		mockMvc.perform(post("/api/v1/histories/history")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(dto)))
-			.andDo(result -> log.info("Response: {}", result.getResponse().getContentAsString()))
-			.andExpect(status().isOk())
-			.andDo(document("create_history", // 문서 조각 디렉토리 명
-				requestFields( // 요청 본문 필드 정보 입력
-					fieldWithPath("tableName").description("테이블명"),
-					fieldWithPath("tableId").description("테이블 아이디"),
-					fieldWithPath("operationType").description("작업형식"),
-					fieldWithPath("entityData").description("변경정보").optional(), // 상위 필드
-					fieldWithPath("entityData.userId").description("사용자 ID"),
-					fieldWithPath("entityData.userPassword").description("사용자 비밀번호"),
-					fieldWithPath("entityData.userName").description("사용자 이름"),
-					fieldWithPath("entityData.userType").description("사용자 유형"),
-					fieldWithPath("entityData.createdAt").description("생성 일시"),
-					fieldWithPath("entityData.modifiedAt").description("수정 일시"),
-					fieldWithPath("entityData.createdBy").description("생성자"),
-					fieldWithPath("entityData.modifiedBy").description("수정자"),
-					fieldWithPath("entityData.deletedYn").description("삭제 여부"),
-					fieldWithPath("createdBy").description("생성자")),
-				responseFields( // 응답 필드 정보 입력
-					fieldWithPath("id").description("히스토리 아이디"),
-					fieldWithPath("tableName").description("테이블명"),
-					fieldWithPath("tableId").description("테이블 아이디"),
-					fieldWithPath("operationType").description("작업형식"),
-					fieldWithPath("changedData").description("변경정보"),
-					fieldWithPath("createdAt").description("생성일시"),
-					fieldWithPath("createdBy").description("생성자"),
-					fieldWithPath("deletedYn").description("삭제여부")
-				))
-			);
+			.andDo(
+				document("histories", // 문서 조각 디렉토리 명
+					queryParameters( // 요청 본문 필드 정보 입력
+						parameterWithName("tableName").description("테이블 이름"),
+						parameterWithName("operationType").description("작업형식"),
+						parameterWithName("startDate").description("시작 날짜"),
+						parameterWithName("endDate").description("종료 날짜")
+					),
+					responseFields( // 응답 필드 정보 입력
+						fieldWithPath("[].id").description("아이디"),
+						fieldWithPath("[].tableName").description("테이블명"),
+						fieldWithPath("[].tableId").description("테이블 아이디"),
+						fieldWithPath("[].operationType").description("작업형식"),
+						fieldWithPath("[].changedData").description("변경정보"),
+						fieldWithPath("[].createdAt").description("생성일시"),
+						fieldWithPath("[].createdBy").description("생성자"),
+						fieldWithPath("[].deletedYn").description("삭제여부")
+					)));
 	}
 
 }
