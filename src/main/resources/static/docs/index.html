@@ -614,6 +614,7 @@ Content-Length: 162
 </tbody>
 </table>
 </div>
+
 <div class="sect3">
 <h4 id="_성공적인_회원_가입_response_body"><a class="link" href="#_성공적인_회원_가입_response_body">Response body</a></h4>
 <div class="listingblock">
@@ -622,6 +623,7 @@ Content-Length: 162
 </div>
 </div>
 </div>
+  
 </div>
 <div class="sect2">
 <h3 id="_중복된_아이디로_가입_실패"><a class="link" href="#_중복된_아이디로_가입_실패">중복된 아이디로 가입 실패</a></h3>
@@ -698,6 +700,7 @@ Content-Length: 61
 <hr>
 <div class="sect2">
 <h3 id="_로그인_성공"><a class="link" href="#_로그인_성공">로그인 성공</a></h3>
+
 <div class="sect3">
 <h4 id="_로그인_성공_form_parameters"><a class="link" href="#_로그인_성공_form_parameters">Form parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -813,6 +816,7 @@ Content-Length: 58
 </table>
 </div>
 <div class="sect3">
+
 <h4 id="_잘못된_아이디_입력_http_request"><a class="link" href="#_잘못된_아이디_입력_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
@@ -859,6 +863,7 @@ userId=test10000&amp;password=password</code></pre>
 </tbody>
 </table>
 </div>
+
 <div class="sect3">
 <h4 id="_잘못된_아이디_입력_http_response"><a class="link" href="#_잘못된_아이디_입력_http_response">HTTP response</a></h4>
 <div class="listingblock">
@@ -954,13 +959,16 @@ userId=test200&amp;password=password123</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: application/json
+
 Set-Cookie: SESSION=M2JmY2U1MzktMDlkYi00YWRhLWE2ZWYtOTQ5ZjNmZjc0MjMw; Path=/; HttpOnly; SameSite=Lax
 Content-Length: 84
 
 {"status":400,"message":"입력한 정보가 올바르지 않습니다","data":null}</code></pre>
 </div>
 </div>
+<hr>
 </div>
+
 </div>
 </div>
 </div>
@@ -1004,6 +1012,7 @@ Content-Length: 84
 </table>
 </div>
 <div class="sect3">
+
 <h4 id="_히스토리_조회_성공_http_request"><a class="link" href="#_히스토리_조회_성공_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
@@ -1084,6 +1093,7 @@ Content-Length: 421
 </tbody>
 </table>
 </div>
+
 <hr>
 </div>
 </div>
@@ -1185,6 +1195,7 @@ Content-Length: 421
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
+
 Last updated 2024-12-11 02:31:47 +0900
 </div>
 </div>
