@@ -18,14 +18,14 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<String> constraintViolationException(ConstraintViolationException ex) {
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
-			.body(ex.getMessage());
+			.body("ConstraintViolationException 가 발생하였습니다.");
 	}
 
 	// @Valid 통해 검증시 위반사항이 발생하여 이를 받는 예외처리
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<String> processValidationError(MethodArgumentNotValidException e) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-			.body(e.getMessage());
+			.body("MethodArgumentNotValidException 가 발생하였습니다.");
 	}
 
 	/**
@@ -35,6 +35,6 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<String> exception(Exception e) {
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(e.getMessage());
+			.body("Exception 이 발생하였습니다.");
 	}
 }
