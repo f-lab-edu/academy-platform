@@ -1,4 +1,4 @@
-package spring.academyPlatform.global.mapper;
+package spring.academyPlatform.user.mapper;
 
 import org.springframework.stereotype.Component;
 

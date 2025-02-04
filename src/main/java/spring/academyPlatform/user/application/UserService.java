@@ -6,12 +6,12 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.academyPlatform.global.mapper.UserMapper;
 import spring.academyPlatform.global.util.BcryptPasswordEncryptor;
 import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.domain.User;
 import spring.academyPlatform.user.dto.UserInsertParamDto;
 import spring.academyPlatform.user.dto.UserInsertResponseDto;
+import spring.academyPlatform.user.mapper.UserMapper;
 
 /**
  * @Service

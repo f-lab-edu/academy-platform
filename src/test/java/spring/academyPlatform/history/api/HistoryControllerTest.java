@@ -74,7 +74,7 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 			.tableName("테스트 테이블")
 			.operationType("생성")
 			.startDate("20240101")
-			.endDate("20241231")
+			.endDate("20251231")
 			.build();
 
 		mockMvc.perform(get("/api/v1/histories/history")
