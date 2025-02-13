@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.academyPlatform.config.AbstractIntegrationTest;
+import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.history.dao.HistoryRepository;
 import spring.academyPlatform.history.domain.History;
 import spring.academyPlatform.history.dto.HistoryCreateRequest;
@@ -58,7 +59,7 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 			.userName("test")
 			.userPassword("1234")
 			.createdBy("test")
-			.deletedYn("Y")
+			.deletedYn(YnCode.Y)
 			.build());
 
 		Map<String, Object> changedData = objectMapper.convertValue(user, Map.class);
@@ -114,7 +115,7 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 			.userName("test")
 			.userPassword("1234")
 			.createdBy("test")
-			.deletedYn("Y")
+			.deletedYn(YnCode.Y)
 			.build());
 
 		// User 객체를 String으로 변경

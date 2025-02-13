@@ -20,11 +20,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import spring.academyPlatform.config.AbstractIntegrationTest;
 import spring.academyPlatform.global.config.querydsl.QueryDslConfig;
+import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.history.domain.History;
 import spring.academyPlatform.history.dto.HistoryCreateRequest;
 import spring.academyPlatform.history.mapper.HistoryMapper;
 import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.domain.User;
+import spring.academyPlatform.user.model.UserTypeCode;
 
 /**
  * @DataJPATest JPA 관련 빈만 로드함.
@@ -58,11 +60,11 @@ class HistoryRepositoryTest extends AbstractIntegrationTest {
 	void create_history() throws JsonProcessingException {
 		User user = userRepository.save(User.builder()
 			.userId("testId")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.userName("test")
 			.userPassword("1234")
 			.createdBy("test")
-			.deletedYn("Y")
+			.deletedYn(YnCode.N)
 			.build());
 
 		// when
