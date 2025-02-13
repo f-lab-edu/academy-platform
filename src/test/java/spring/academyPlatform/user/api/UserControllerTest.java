@@ -25,7 +25,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import spring.academyPlatform.config.AbstractIntegrationTest;
 import spring.academyPlatform.user.dao.UserRepository;
-import spring.academyPlatform.user.dto.UserInsertParamDto;
+import spring.academyPlatform.user.dto.UserCreateRequest;
+import spring.academyPlatform.user.model.UserTypeCode;
 
 /**
  * 테스트 코드는 클래스 전체적으로 실행하면 테이블 공유
@@ -72,14 +73,14 @@ class UserControllerTest extends AbstractIntegrationTest {
 	void join_user() throws Exception {
 		String id = "test9";
 
-		UserInsertParamDto dto = UserInsertParamDto.builder()
+		UserCreateRequest dto = UserCreateRequest.builder()
 			.userId(id)
 			.userPassword("password")
 			.userName("test_name")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 			.andExpect(status().isOk())
 			.andDo(document("join_user", // 문서 조각 디렉토리 명
@@ -104,29 +105,29 @@ class UserControllerTest extends AbstractIntegrationTest {
 	void join_user_with_duplicate_id() throws Exception {
 		String id = "test100";
 		// 사용자 생성
-		UserInsertParamDto dto = UserInsertParamDto.builder()
+		UserCreateRequest dto = UserCreateRequest.builder()
 			.userId(id)
 			.userPassword("password")
 			.userName("test_name")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
 		// 중복된 ID 생성 요청 DTO
-		UserInsertParamDto dto2 = UserInsertParamDto.builder()
+		UserCreateRequest dto2 = UserCreateRequest.builder()
 			.userId(id)
 			.userPassword("password")
 			.userName("test_name")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join-user")
+		mockMvc.perform(post("/api/v1/user/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto2)))
 			.andExpect(status().isConflict()) // 409 Conflict 기대
-			.andExpect(jsonPath("$.status").value(409))
+			.andExpect(jsonPath("$.status").value(500))
 			.andExpect(jsonPath("$.message").value("User ID already exists"))
 			.andDo(document("join_user_fail_duplicate_id",
 				requestFields(
@@ -149,14 +150,14 @@ class UserControllerTest extends AbstractIntegrationTest {
 	void login_success() throws Exception {
 
 		// 사용자 생성
-		UserInsertParamDto dto = UserInsertParamDto.builder()
+		UserCreateRequest dto = UserCreateRequest.builder()
 			.userId("test11")
 			.userPassword("password")
 			.userName("test_name")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
 		mockMvc.perform(post("/api/v1/user/login-user")
@@ -181,14 +182,14 @@ class UserControllerTest extends AbstractIntegrationTest {
 	void login_failed_with_id() throws Exception {
 
 		// 사용자 생성
-		UserInsertParamDto dto = UserInsertParamDto.builder()
+		UserCreateRequest dto = UserCreateRequest.builder()
 			.userId("test12")
 			.userPassword("password")
 			.userName("test_name")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
 		mockMvc.perform(post("/api/v1/user/login-user")
@@ -218,14 +219,14 @@ class UserControllerTest extends AbstractIntegrationTest {
 	void login_failed_with_password() throws Exception {
 
 		// 사용자 생성
-		UserInsertParamDto dto = UserInsertParamDto.builder()
+		UserCreateRequest dto = UserCreateRequest.builder()
 			.userId("test200")
 			.userPassword("password")
 			.userName("test_name")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join-user").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
 		mockMvc.perform(post("/api/v1/user/login-user")

@@ -2,6 +2,7 @@ package spring.academyPlatform.user.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,10 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.academyPlatform.global.util.Message;
 import spring.academyPlatform.user.application.UserService;
-import spring.academyPlatform.user.dto.UserInsertParamDto;
-import spring.academyPlatform.user.dto.UserInsertResponseDto;
+import spring.academyPlatform.user.dto.UserCreateRequest;
+import spring.academyPlatform.user.dto.UserCreateResponse;
 
 /**
  * @RestController
@@ -45,42 +45,23 @@ public class UserController {
 
 	private final UserService userService;
 
-	@PostMapping("/join-user")
-	public ResponseEntity<Message> insertUser(@Valid @RequestBody UserInsertParamDto dto) {
-		try {
-			UserInsertResponseDto result = userService.insertUser(dto);
-			return ResponseEntity.status(HttpStatus.OK)
-				.body(new Message(HttpStatus.OK, "Successfully joined user!", result));
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-				.body(new Message(HttpStatus.CONFLICT, e.getMessage()));
-		}
+	@PostMapping("/user")
+	public ResponseEntity<UserCreateResponse> insertUser(@Valid @RequestBody UserCreateRequest dto) {
+		UserCreateResponse result = userService.insertUser(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@PostMapping("/login-user")
-	public ResponseEntity<Message> getLoginUser(@RequestParam String userId, @RequestParam String password,
+	@PostMapping("/login")
+	public ResponseEntity<Boolean> getLoginUser(@RequestParam String userId, @RequestParam String password,
 		HttpSession session) {
-		try {
-			boolean result = userService.authenticate(userId, password, session);
-			return ResponseEntity.status(HttpStatus.OK)
-				.body(new Message(HttpStatus.OK, "Successfully login!", result));
-
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(new Message(HttpStatus.BAD_REQUEST, e.getMessage()));
-		}
+		boolean result = userService.authenticate(userId, password, session);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	/**
-	 * HttpSession , HttpServletRequest/response
-	 *
-	 *
-	 */
-	@PostMapping("/logout")
+	@GetMapping("/logout")
 	public ResponseEntity<String> logoutUser(HttpSession session) {
 		if (session != null) {
+			// 세션이 있을때 세션을 무효화 시킵니다.
 			session.invalidate();
 		} else {
 			throw new IllegalStateException("로그인 상태가 아닙니다.");

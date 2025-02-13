@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -18,6 +20,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import spring.academyPlatform.global.model.YnCode;
+import spring.academyPlatform.user.model.UserTypeCode;
 
 @Entity
 @Table
@@ -37,8 +41,9 @@ public class User {
 	@Column
 	private String userName;
 
-	@Column
-	private String userType;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "user_type")
+	private UserTypeCode userType;
 
 	@Column
 	@CreatedDate
@@ -57,11 +62,12 @@ public class User {
 	private String modifiedBy;
 
 	@Column
-	private String deletedYn;
+	@Enumerated(EnumType.STRING)
+	private YnCode deletedYn;
 
 	@Builder
-	public User(String userId, String userPassword, String userName, String userType, LocalDateTime createdAt,
-		LocalDateTime modifiedAt, String createdBy, String modifiedBy, String deletedYn) {
+	public User(String userId, String userPassword, String userName, UserTypeCode userType, LocalDateTime createdAt,
+		LocalDateTime modifiedAt, String createdBy, String modifiedBy, YnCode deletedYn) {
 		this.userId = userId;
 		this.userPassword = userPassword;
 		this.userName = userName;

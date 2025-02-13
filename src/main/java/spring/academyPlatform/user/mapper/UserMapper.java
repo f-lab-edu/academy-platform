@@ -3,8 +3,8 @@ package spring.academyPlatform.user.mapper;
 import org.springframework.stereotype.Component;
 
 import spring.academyPlatform.user.domain.User;
-import spring.academyPlatform.user.dto.UserInsertParamDto;
-import spring.academyPlatform.user.dto.UserInsertResponseDto;
+import spring.academyPlatform.user.dto.UserCreateRequest;
+import spring.academyPlatform.user.dto.UserCreateResponse;
 
 /**
  * @Component
@@ -13,7 +13,7 @@ import spring.academyPlatform.user.dto.UserInsertResponseDto;
 @Component
 public class UserMapper {
 
-	public static User from(UserInsertResponseDto dto) {
+	public static User from(UserCreateResponse dto) {
 		return User.builder()
 			.userId(dto.getUserId())
 			.userName(dto.getUserName())
@@ -22,8 +22,8 @@ public class UserMapper {
 			.build();
 	}
 
-	public static UserInsertResponseDto fromEntity(User user) {
-		return UserInsertResponseDto.builder()
+	public static UserCreateResponse fromEntity(User user) {
+		return UserCreateResponse.builder()
 			.userId(user.getUserId())
 			.userName(user.getUserName())
 			.userType(user.getUserType())
@@ -33,8 +33,8 @@ public class UserMapper {
 
 	}
 
-	public static UserInsertResponseDto fromParamDto(UserInsertParamDto dto) {
-		return UserInsertResponseDto.builder()
+	public static UserCreateResponse fromParamDto(UserCreateRequest dto) {
+		return UserCreateResponse.builder()
 			.userId(dto.getUserId())
 			.userName(dto.getUserName())
 			.userType(dto.getUserType())

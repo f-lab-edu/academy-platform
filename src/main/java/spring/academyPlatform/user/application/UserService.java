@@ -6,11 +6,12 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.global.util.BcryptPasswordEncryptor;
 import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.domain.User;
-import spring.academyPlatform.user.dto.UserInsertParamDto;
-import spring.academyPlatform.user.dto.UserInsertResponseDto;
+import spring.academyPlatform.user.dto.UserCreateRequest;
+import spring.academyPlatform.user.dto.UserCreateResponse;
 import spring.academyPlatform.user.mapper.UserMapper;
 
 /**
@@ -30,7 +31,7 @@ public class UserService {
 
 	private final UserRepository userRepository;
 
-	public UserInsertResponseDto insertUser(UserInsertParamDto dto) {
+	public UserCreateResponse insertUser(UserCreateRequest dto) {
 
 		String hashPassword = BcryptPasswordEncryptor.hashPassword(dto.getUserPassword());
 
@@ -45,7 +46,7 @@ public class UserService {
 			.userName(dto.getUserName())
 			.userPassword(hashPassword)
 			.createdBy(dto.getUserName())
-			.deletedYn("Y")
+			.deletedYn(YnCode.Y)
 			.build();
 		User savedUser = userRepository.save(user);
 
@@ -59,6 +60,7 @@ public class UserService {
 
 		if (user.getUserId().equals(userId) && BcryptPasswordEncryptor.checkPassword(password,
 			user.getUserPassword())) {
+			// 로그인 시 세션에 유저 정보를 저장합니다.
 			session.setAttribute("user", user.getUserName());
 			return true;
 		} else {
