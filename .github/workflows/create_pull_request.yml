@@ -1,10 +1,9 @@
-# 워크플로의 이름을 정의합니다.
-name: build-test
+name: create_pull_request
 
 on:
   push:
     branches:
-      - chore/project-setup
+      - develop
 
 jobs:
   build:
@@ -28,5 +27,7 @@ jobs:
             gradle-cache-${{ runner.os }}-
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+      - name: Run Tests
+        run: ./gradlew test
       - name: Build and Test with Gradle
         run: ./gradlew build

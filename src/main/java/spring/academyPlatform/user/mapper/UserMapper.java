@@ -1,18 +1,23 @@
 package spring.academyPlatform.user.mapper;
 
+import org.springframework.stereotype.Component;
+
 import spring.academyPlatform.user.domain.User;
 import spring.academyPlatform.user.dto.UserCreateRequest;
 import spring.academyPlatform.user.dto.UserCreateResponse;
-import spring.academyPlatform.user.model.UserTypeCode;
 
+/**
+ * @Component
+ * 스프링에서 빈으로 등록할 클래스를 명시하는 어노테이션 입니다.
+ */
+@Component
 public class UserMapper {
 
-	public static User fromDto(UserCreateRequest dto, String encodingPassword, UserTypeCode userTypeCode) {
+	public static User from(UserCreateResponse dto) {
 		return User.builder()
 			.userId(dto.getUserId())
 			.userName(dto.getUserName())
-			.userPassword(encodingPassword)
-			.userType(userTypeCode)
+			.userType(dto.getUserType())
 			.createdBy(dto.getUserName())
 			.build();
 	}
@@ -26,6 +31,14 @@ public class UserMapper {
 			.deletedYn(user.getDeletedYn())
 			.build();
 
+	}
+
+	public static UserCreateResponse fromParamDto(UserCreateRequest dto) {
+		return UserCreateResponse.builder()
+			.userId(dto.getUserId())
+			.userName(dto.getUserName())
+			.userType(dto.getUserType())
+			.build();
 	}
 
 }
