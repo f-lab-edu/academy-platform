@@ -87,6 +87,16 @@ dependencies {
     // MockMvc 대신 REST Assured를 사용하려면 spring-restdocs-restassured 를 추가
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
+    // mapStructor 사용을 위한 의존성 주입
+    // https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    // https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    // https://mvnrepository.com/artifact/org.mapstruct/mapstruct
+    implementation("org.mapstruct:mapstruct:1.5.3.Final")
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
+    implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+
 
 }
 
