@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import spring.academyPlatform.qa_board.domain.QaBoard;
 
 @Repository
-public interface QaBoardRepository extends JpaRepository<QaBoard, Long> {
+public interface QaBoardRepository extends JpaRepository<QaBoard, Long>, QaBoardCustomRepository {
 
 }
