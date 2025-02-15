@@ -1,6 +1,7 @@
 package spring.academyPlatform.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import spring.academyPlatform.user.model.UserTypeCode;
@@ -14,7 +15,7 @@ public class UserCreateRequest {
 	String userPassword;
 	@NotBlank
 	String userName;
-	@NotBlank
+	@NotNull
 	UserTypeCode userType;
 
 	@Builder
