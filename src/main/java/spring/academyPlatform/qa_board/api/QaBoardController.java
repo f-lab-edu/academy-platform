@@ -52,4 +52,11 @@ public class QaBoardController {
 		QaBoardSearchResponse result = qaBoardService.findSingleBoard(boardId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	@PutMapping("/board")
+	public ResponseEntity<QaBoardUpdateResponse> changeBoard(@RequestParam(required = false) Long boardId,
+		@RequestBody QaBoardUpdateRequest dto, HttpSession session) {
+		QaBoardUpdateResponse result = qaBoardService.changeBoard(boardId, dto, session);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 }

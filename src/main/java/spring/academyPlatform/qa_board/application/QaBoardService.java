@@ -63,4 +63,20 @@ public class QaBoardService {
 		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
 		return qaBoardMapper.changeSearchResponse(board);
 	}
+
+	@Transactional
+	public QaBoardUpdateResponse changeBoard(Long boardId, QaBoardUpdateRequest dto, HttpSession session) {
+		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		if (board == null) {
+			throw new IllegalStateException("Board not found");
+		}
+		QaBoard changeBoard = board.toBuilder()
+			.title(dto.getTitle())
+			.post(dto.getPost())
+			.modifiedBy(session.getAttribute("user").toString())
+			.build();
+		qaBoardRepository.save(changeBoard);
+
+		return qaBoardMapper.updateDto(changeBoard);
+	}
 }

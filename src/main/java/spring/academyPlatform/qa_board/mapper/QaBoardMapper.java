@@ -34,4 +34,7 @@ public interface QaBoardMapper {
 	QaBoardChangeResponse createDto(QaBoard qaBoard);
 
 	List<QaBoardChangeResponse> toChange(List<QaBoard> qaBoard);
+
+	QaBoardUpdateResponse updateDto(QaBoard qaBoard);
+
 }
