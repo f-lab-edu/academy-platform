@@ -9,13 +9,17 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.global.util.CustomPage;
 import spring.academyPlatform.global.util.DateTimeFormatterUtil;
 import spring.academyPlatform.qa_board.dao.QaBoardRepository;
 import spring.academyPlatform.qa_board.domain.QaBoard;
+import spring.academyPlatform.qa_board.dto.QaBoardChangeResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardSearchResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardUpdateRequest;
+import spring.academyPlatform.qa_board.dto.QaBoardUpdateResponse;
 import spring.academyPlatform.qa_board.mapper.QaBoardMapper;
 import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.domain.User;
@@ -48,7 +52,7 @@ public class QaBoardService {
 	}
 
 	@Transactional(readOnly = true)
-	public CustomPage<QaBoardSearchResponse> findBoard(Long boardId, String title, String userId, String startDate,
+	public CustomPage<QaBoardChangeResponse> findBoard(Long boardId, String title, String userId, String startDate,
 		String endDate, int page,
 		int size) {
 

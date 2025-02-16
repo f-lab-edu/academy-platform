@@ -11,6 +11,7 @@ import spring.academyPlatform.qa_board.dto.QaBoardChangeResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardSearchResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardUpdateResponse;
 import spring.academyPlatform.qa_comment.mapper.QaCommentMapper;
 
 /**
@@ -27,6 +28,8 @@ public interface QaBoardMapper {
 	QaBoardCreateResponse changeDto(QaBoardCreateRequest qaBoardCreateRequest);
 
 	QaBoard toEntity(QaBoardCreateResponse qaBoardCreateResponse);
+
+	QaBoardSearchResponse changeSearchResponse(QaBoard qaBoard);
 
 	List<QaBoardSearchResponse> change(List<QaBoard> qaBoard);
 
