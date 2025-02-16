@@ -144,23 +144,23 @@ public class QaBoardRepositoryImpl implements QaBoardCustomRepository {
 
 	private BooleanExpression likeTitle(String title) {
 		if (StringUtils.hasText(title)) {
-			return qaBoard.title.like(title); // 값이 유효하면 eq() 사용
+			return qaBoard.title.like(title);
 		}
 		return null; // 값이 없으면 조건을 포함하지 않음
 	}
 
 	private BooleanExpression eqBoardId(Long boardId) {
 		if (boardId != null) {
-			return qaBoard.boardId.eq(boardId); // 값이 유효하면 eq() 사용
+			return qaBoard.boardId.eq(boardId);
 		}
-		return null; // 값이 없으면 조건을 포함하지 않음
+		return null;
 	}
 
 	private BooleanExpression eqUserId(String userId) {
 		if (StringUtils.hasText(userId)) {
-			return qaBoard.userId.eq(userId); // 값이 유효하면 eq() 사용
+			return qaBoard.userId.eq(userId);
 		}
-		return null; // 값이 없으면 조건을 포함하지 않음
+		return null;
 	}
 
 	private BooleanExpression betweenDate(LocalDateTime start, LocalDateTime end) {
