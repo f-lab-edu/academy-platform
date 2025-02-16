@@ -55,6 +55,12 @@ public class QaComment {
 	@Column(name = "post")
 	private String post;
 
+	@Column(name = "created_by")
+	private String createdBy;
+
+	@Column(name = "modified_by")
+	private String modifiedBy;
+
 	@Column(name = "created_at", updatable = false)
 	@CreatedDate
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -73,7 +79,8 @@ public class QaComment {
 	@Builder
 	public QaComment(Long commentId, Long boardId, String userId, Long parentsCommentId, Long priorityNumber,
 		String title,
-		String post, LocalDateTime createdAt, LocalDateTime modifiedAt, YnCode deletedYn) {
+		String post, String createdBy, String modifiedBy, LocalDateTime createdAt, LocalDateTime modifiedAt,
+		YnCode deletedYn) {
 		this.commentId = commentId;
 		this.boardId = boardId;
 		this.userId = userId;
@@ -81,8 +88,10 @@ public class QaComment {
 		this.priorityNumber = priorityNumber;
 		this.title = title;
 		this.post = post;
+		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
 		this.createdAt = createdAt;
 		this.modifiedAt = modifiedAt;
-		this.deletedYn = deletedYn;
+		this.deletedYn = (deletedYn == null) ? YnCode.N : deletedYn;
 	}
 }

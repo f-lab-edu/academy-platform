@@ -1,12 +1,18 @@
 package spring.academyPlatform.qa_comment.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import spring.academyPlatform.global.model.YnCode;
 
 @Getter
+@Setter
+@ToString
 public class QaCommentResponse {
 
 	private Long commentId;
@@ -20,9 +26,12 @@ public class QaCommentResponse {
 	private LocalDateTime modifiedAt;
 	private YnCode deletedYn;
 
+	private List<QaCommentResponse> children = new ArrayList<>();
+
 	@Builder
 	public QaCommentResponse(Long commentId, Long boardId, String userId, Long parentsCommentId, Long priorityNumber,
-		String title, String post, LocalDateTime createdAt, LocalDateTime modifiedAt, YnCode deletedYn) {
+		String title, String post, LocalDateTime createdAt, LocalDateTime modifiedAt, YnCode deletedYn,
+		List<QaCommentResponse> children) {
 		this.commentId = commentId;
 		this.boardId = boardId;
 		this.userId = userId;
@@ -33,5 +42,7 @@ public class QaCommentResponse {
 		this.createdAt = createdAt;
 		this.modifiedAt = modifiedAt;
 		this.deletedYn = deletedYn;
+		this.children = (children == null) ? new ArrayList<>() : children;
 	}
+
 }
