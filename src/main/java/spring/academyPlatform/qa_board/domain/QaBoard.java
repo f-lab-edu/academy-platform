@@ -54,7 +54,7 @@ public class QaBoard {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
 
-	@Column(name = "modified_at", updatable = false)
+	@Column(name = "modified_at")
 	@LastModifiedDate
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime modifiedAt;
@@ -73,7 +73,7 @@ public class QaBoard {
 	@JoinColumn(name = "board_id", insertable = false)
 	private List<QaComment> comments = new ArrayList<>();
 
-	@Builder
+	@Builder(toBuilder = true)
 	public QaBoard(Long boardId, String userId, String title, String post, LocalDateTime createdAt,
 		LocalDateTime modifiedAt, String createdBy, String modifiedBy, YnCode deletedYn, List<QaComment> comments) {
 		this.boardId = boardId;

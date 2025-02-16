@@ -57,4 +57,10 @@ public class QaBoardService {
 
 		return qaBoardRepository.findBoard(boardId, title, userId, start, end, page, size);
 	}
+
+	@Transactional(readOnly = true)
+	public QaBoardSearchResponse findSingleBoard(Long boardId) {
+		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		return qaBoardMapper.changeSearchResponse(board);
+	}
 }

@@ -47,4 +47,9 @@ public class QaBoardController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
+	@GetMapping("/board")
+	public ResponseEntity<QaBoardSearchResponse> searchBoard(@RequestParam(required = false) Long boardId) {
+		QaBoardSearchResponse result = qaBoardService.findSingleBoard(boardId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 }
