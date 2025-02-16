@@ -79,4 +79,18 @@ public class QaBoardService {
 
 		return qaBoardMapper.updateDto(changeBoard);
 	}
+
+	@Transactional
+	public boolean deletedBoard(Long boardId) {
+		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		if (board == null) {
+			throw new IllegalStateException("Board not found");
+		}
+		QaBoard changeBoard = board.toBuilder()
+			.deletedYn(YnCode.Y)
+			.build();
+		qaBoardRepository.save(changeBoard);
+
+		return true;
+	}
 }

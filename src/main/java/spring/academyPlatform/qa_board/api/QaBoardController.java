@@ -59,4 +59,11 @@ public class QaBoardController {
 		QaBoardUpdateResponse result = qaBoardService.changeBoard(boardId, dto, session);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	@DeleteMapping("/board")
+	public ResponseEntity<Boolean> deleteBoard(@RequestParam(required = false) Long boardId) {
+		boolean result = qaBoardService.deletedBoard(boardId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 }
