@@ -62,6 +62,7 @@ public class UserService {
 			user.getUserPassword())) {
 			// 로그인 시 세션에 유저 정보를 저장합니다.
 			session.setAttribute("user", user.getUserName());
+			session.setAttribute("userId", user.getUserId());
 			return true;
 		} else {
 			throw new IllegalArgumentException("입력한 정보가 올바르지 않습니다");
