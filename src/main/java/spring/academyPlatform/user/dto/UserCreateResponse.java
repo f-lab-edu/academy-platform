@@ -7,16 +7,16 @@ import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.user.model.UserTypeCode;
 
 @Getter
-@Builder
 public class UserCreateResponse {
 	@NotBlank
-	private String userId;
+	String userId;
 	@NotBlank
-	private String userName;
+	String userName;
 	@NotBlank
-	private UserTypeCode userType;
-	private String createdBy;
-	private YnCode deletedYn;
+	UserTypeCode userType;
+	String createdBy;
+	@NotBlank
+	YnCode deletedYn;
 
 	@Builder
 	public UserCreateResponse(String userId, String userName,
@@ -29,6 +29,3 @@ public class UserCreateResponse {
 	}
 
 }
-
-
-

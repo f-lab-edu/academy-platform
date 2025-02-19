@@ -1,0 +1,17 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+GET http://localhost:8080/api/v1/history/histories?startDate=20241201&endDate=20241230
+
+# 선택적 파라미터들
+# tableName=test_table
+# operationType=INSERT
+# createBy=user123
+
+
+###
+PUT  http://localhost:8080/api/v1/history/1
+
+# histoy 테이블의 id를 기입
