@@ -1,5 +1,6 @@
 package spring.academyPlatform.global.interceptor;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
+@Profile("!test") // 테스트 프로파일에서는 동작하지 않도록 수정.
 public class AuthenticationInterceptor implements HandlerInterceptor {
 	// 컨트롤러 진입 전에 실행되는 메서드
 	@Override
