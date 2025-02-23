@@ -61,7 +61,7 @@ public class QaBoardController {
 	@PutMapping("/board")
 	public ResponseEntity<QaBoardUpdateResponse> changeBoard(@RequestParam(required = false) Long boardId,
 		@RequestBody QaBoardUpdateRequest dto, HttpSession session) {
-		QaBoardUpdateResponse result = qaBoardService.changeBoard(boardId, dto, session);
+		QaBoardUpdateResponse result = qaBoardService.updateBoard(boardId, dto, session);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

@@ -69,7 +69,7 @@ public class QaBoardService {
 	}
 
 	@Transactional
-	public QaBoardUpdateResponse changeBoard(Long boardId, QaBoardUpdateRequest dto, HttpSession session) {
+	public QaBoardUpdateResponse updateBoard(Long boardId, QaBoardUpdateRequest dto, HttpSession session) {
 		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
 		if (board == null) {
 			throw new IllegalStateException("Board not found");
