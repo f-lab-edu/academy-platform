@@ -39,4 +39,10 @@ public class QaCommentController {
 		QaCommentResponse result = qaCommentService.updateComment(commentId, request, session);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	@DeleteMapping("/comment")
+	public ResponseEntity<Boolean> deleteComment(@RequestParam Long commentId) {
+		boolean result = qaCommentService.deleteComment(commentId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 }

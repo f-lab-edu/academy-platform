@@ -1,5 +1,6 @@
 package spring.academyPlatform.qa_comment.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,6 @@ public interface QaCommentRepository extends JpaRepository<QaComment, Long> {
 		@Param("deletedYn") YnCode deletedYn);
 
 	Optional<QaComment> findByCommentIdAndDeletedYn(Long commentId, YnCode deletedYn);
+
+	List<QaComment> findByParentsCommentIdAndDeletedYn(Long commentId, YnCode ynCode);
 }

@@ -70,7 +70,31 @@ public class QaCommentService {
 			.build();
 
 		qaCommentRepository.save(changeComment);
+	public boolean deleteComment(Long commentId) {
+		// 댓글 삭제시 하위 댓글도 모두 삭제 처리가 진행되어야 한다.
+		// 1. 최상위 댓글 삭제시, 모든 하위 댓글 삭제
+		// 2. 대댓글 삭제시, 대댓글 하위 댓글 삭제  이런식으로...
+		// parentsCommentId 조회 후 삭제하기
+		// 입력 받는 commentId 값은 commentId
+		// commentId 와 parentsCommentId는 동일하니 이 id 포함된 댓글 전부 삭제하기
+		QaComment comment = qaCommentRepository.findByCommentIdAndDeletedYn(commentId, YnCode.N)
+			.orElseThrow(() -> new IllegalStateException("Comment not found"));
 
-		return qaCommentMapper.change(changeComment);
+		QaComment deleteComment = comment.toBuilder()
+			.deletedYn(YnCode.Y)
+			.build();
+
+		qaCommentRepository.save(deleteComment);
+
+		List<QaComment> comments = qaCommentRepository.findByParentsCommentIdAndDeletedYn(commentId, YnCode.N);
+		List<QaComment> commentsToDelete = comments.stream()
+			.map(underComment -> underComment.toBuilder()
+				.deletedYn(YnCode.Y)
+				.build())
+			.toList();
+
+		qaCommentRepository.saveAll(commentsToDelete);
+
+		return true;
 	}
 }
