@@ -1,5 +1,7 @@
 package spring.academyPlatform.qa_comment.dao;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,4 +19,5 @@ public interface QaCommentRepository extends JpaRepository<QaComment, Long> {
 	Long findMaxPriorityByBoardIdAndParentsCommentIdIsNull(@Param("boardId") Long boardId,
 		@Param("deletedYn") YnCode deletedYn);
 
+	Optional<QaComment> findByCommentIdAndDeletedYn(Long commentId, YnCode deletedYn);
 }

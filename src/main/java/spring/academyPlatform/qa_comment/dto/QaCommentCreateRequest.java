@@ -12,7 +12,7 @@ public class QaCommentCreateRequest {
 	private String post;
 
 	@Builder
-	public QaCommentCreateRequest(Long boardId, String userId, Long parentCommentId, String title, String post) {
+	public QaCommentCreateRequest(Long boardId, Long parentCommentId, String title, String post) {
 		this.boardId = boardId;
 		this.parentCommentId = parentCommentId;
 		this.title = title;

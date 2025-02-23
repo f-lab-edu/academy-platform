@@ -76,7 +76,7 @@ public class QaComment {
 	@Column(name = "deleted_yn")
 	private YnCode deletedYn;
 
-	@Builder
+	@Builder(toBuilder = true)
 	public QaComment(Long commentId, Long boardId, String userId, Long parentsCommentId, Long priorityNumber,
 		String title,
 		String post, String createdBy, String modifiedBy, LocalDateTime createdAt, LocalDateTime modifiedAt,
