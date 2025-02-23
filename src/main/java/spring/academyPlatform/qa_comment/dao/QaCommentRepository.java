@@ -1,15 +1,20 @@
 package spring.academyPlatform.qa_comment.dao;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import io.lettuce.core.dynamic.annotation.Param;
 import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.qa_comment.domain.QaComment;
 
 public interface QaCommentRepository extends JpaRepository<QaComment, Long> {
 
-	List<QaComment> findByParentsCommentIdAndDeletedYn(Long parentsCommentId, YnCode deletedYn);
+	@Query("SELECT MAX(c.priorityNumber) FROM QaComment c WHERE c.parentsCommentId = :parentCommentId AND c.deletedYn = :deletedYn")
+	Long findMaxPriorityByParentCommentId(@Param("parentCommentId") Long parentCommentId,
+		@Param("deletedYn") YnCode deletedYn);
 
-	List<QaComment> findByBoardIdAndParentsCommentIdIsNullAndDeletedYn(Long BoardId, YnCode deletedYn);
+	@Query("SELECT MAX(c.priorityNumber) FROM QaComment c WHERE c.boardId = :boardId AND c.parentsCommentId IS NULL AND c.deletedYn = :deletedYn")
+	Long findMaxPriorityByBoardIdAndParentsCommentIdIsNull(@Param("boardId") Long boardId,
+		@Param("deletedYn") YnCode deletedYn);
+
 }

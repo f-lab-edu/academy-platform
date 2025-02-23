@@ -1,9 +1,5 @@
 package spring.academyPlatform.qa_comment.application;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,29 +20,19 @@ public class QaCommentService {
 
 	@Transactional
 	public QaCommentResponse createComment(QaCommentCreateRequest requestDto, HttpSession session) {
-		long priorityNumber;
+		final long PRIORITY_NUMBER;
 
 		if (requestDto.getParentCommentId() != null) {
 			// 대댓글 생성인 경우: 부모 댓글의 자식들 중 최대 priorityNumber + 1
-			List<QaComment> childComments = qaCommentRepository.findByParentsCommentIdAndDeletedYn(
+			Long maxPriority = qaCommentRepository.findMaxPriorityByParentCommentId(
 				requestDto.getParentCommentId(), YnCode.N);
-			long maxPriority = childComments.stream()
-				.map(QaComment::getPriorityNumber)
-				.filter(Objects::nonNull)
-				.max(Comparator.naturalOrder())
-				.orElse(Long.valueOf(0));
-			priorityNumber = maxPriority + 1;
+			PRIORITY_NUMBER = getNextPriorityNumber(maxPriority);
+
 		} else {
 			// 최상위 댓글 생성인 경우: 해당 게시글의 최상위 댓글 중 최대 priorityNumber + 1
-			List<QaComment> topComments = qaCommentRepository.findByBoardIdAndParentsCommentIdIsNullAndDeletedYn(
-				requestDto.getBoardId(),
-				YnCode.N);
-			long maxPriority = topComments.stream()
-				.map(QaComment::getPriorityNumber)
-				.filter(Objects::nonNull)
-				.max(Comparator.naturalOrder())
-				.orElse(Long.valueOf(0));
-			priorityNumber = maxPriority + 1;
+			Long maxPriority = qaCommentRepository.findMaxPriorityByBoardIdAndParentsCommentIdIsNull(
+				requestDto.getBoardId(), YnCode.N);
+			PRIORITY_NUMBER = getNextPriorityNumber(maxPriority);
 		}
 
 		// 빌더 패턴을 사용하여 Comment 생성
@@ -57,12 +43,16 @@ public class QaCommentService {
 			.title(requestDto.getTitle())
 			.post(requestDto.getPost())
 			.createdBy(session.getAttribute("user").toString())
-			.priorityNumber(priorityNumber)
+			.priorityNumber(PRIORITY_NUMBER)
 			.build();
 
 		qaCommentRepository.save(comment);
 
 		return qaCommentMapper.change(comment);
+	}
+
+	private long getNextPriorityNumber(Long maxPriority) {
+		return (maxPriority == null ? 0L : maxPriority) + 1;
 	}
 
 }
