@@ -2,6 +2,7 @@ package spring.academyPlatform.qa_board.application;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,8 @@ import spring.academyPlatform.qa_board.dto.QaBoardSearchResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardUpdateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardUpdateResponse;
 import spring.academyPlatform.qa_board.mapper.QaBoardMapper;
+import spring.academyPlatform.qa_comment.dao.QaCommentRepository;
+import spring.academyPlatform.qa_comment.domain.QaComment;
 import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.domain.User;
 
@@ -32,6 +35,7 @@ public class QaBoardService {
 	private final QaBoardRepository qaBoardRepository;
 	private final QaBoardMapper qaBoardMapper;
 	private final UserRepository userRepository;
+	private final QaCommentRepository qaCommentRepository;
 
 	@Transactional
 	public QaBoardCreateResponse insertBoard(QaBoardCreateRequest request, HttpSession session) {
@@ -94,6 +98,14 @@ public class QaBoardService {
 			.deletedYn(YnCode.Y)
 			.build();
 		qaBoardRepository.save(changeBoard);
+
+		List<QaComment> commentList = qaCommentRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+
+		List<QaComment> deleteList = commentList.stream()
+			.map(comment -> comment.toBuilder().deletedYn(YnCode.Y).build())
+			.toList();
+
+		qaCommentRepository.saveAll(deleteList);
 
 		return true;
 	}

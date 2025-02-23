@@ -23,4 +23,6 @@ public interface QaCommentRepository extends JpaRepository<QaComment, Long> {
 	Optional<QaComment> findByCommentIdAndDeletedYn(Long commentId, YnCode deletedYn);
 
 	List<QaComment> findByParentsCommentIdAndDeletedYn(Long commentId, YnCode ynCode);
+
+	List<QaComment> findByBoardIdAndDeletedYn(Long boardId, YnCode deletedYn);
 }
