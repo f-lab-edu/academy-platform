@@ -1,5 +1,7 @@
 package spring.academyPlatform.qa_comment.application;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +11,7 @@ import spring.academyPlatform.global.model.YnCode;
 import spring.academyPlatform.qa_comment.dao.QaCommentRepository;
 import spring.academyPlatform.qa_comment.domain.QaComment;
 import spring.academyPlatform.qa_comment.dto.QaCommentCreateRequest;
+import spring.academyPlatform.qa_comment.dto.QaCommentCreateResponse;
 import spring.academyPlatform.qa_comment.dto.QaCommentResponse;
 import spring.academyPlatform.qa_comment.dto.QaCommentUpdateRequest;
 import spring.academyPlatform.qa_comment.mapper.QaCommentMapper;
@@ -20,7 +23,7 @@ public class QaCommentService {
 	private final QaCommentMapper qaCommentMapper;
 
 	@Transactional
-	public QaCommentResponse createComment(QaCommentCreateRequest requestDto, HttpSession session) {
+	public QaCommentCreateResponse createComment(QaCommentCreateRequest requestDto, HttpSession session) {
 		final long PRIORITY_NUMBER;
 
 		if (requestDto.getParentCommentId() != null) {
@@ -49,7 +52,7 @@ public class QaCommentService {
 
 		qaCommentRepository.save(comment);
 
-		return qaCommentMapper.change(comment);
+		return qaCommentMapper.toCreateDto(comment);
 	}
 
 	private long getNextPriorityNumber(Long maxPriority) {
@@ -69,7 +72,11 @@ public class QaCommentService {
 			.modifiedBy(session.getAttribute("userId").toString())
 			.build();
 
-		qaCommentRepository.save(changeComment);
+		QaComment result = qaCommentRepository.save(changeComment);
+
+		return qaCommentMapper.change(result);
+	}
+
 	public boolean deleteComment(Long commentId) {
 		// 댓글 삭제시 하위 댓글도 모두 삭제 처리가 진행되어야 한다.
 		// 1. 최상위 댓글 삭제시, 모든 하위 댓글 삭제
