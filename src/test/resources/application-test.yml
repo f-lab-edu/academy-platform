@@ -1,17 +1,8 @@
 spring:
+  session:
+    storeType: none
 
-  #  @DynamicPropertySource  spring boot가 테스트 중에 사용할 데이터소스 속성을 동적으로 설정하기에 application-test.yml에 명시적으로 지정할 필요가 없습니다.
-  #  datasource:
-  #    driver-class-name: org.mariadb.jdbc.Driver
-  #    url: ${DB_URL}
-  #    username: ${DB_USERNAME}
-  #    password: ${DB_PASSWORD}
 
-  jpa:
-    hibernate:
-      ddl-auto: create
-      # Spring Boot에서 View 렌더링 중에 데이터베이스와의 연결이 열려 있도록 해주는 옵션
-    open-in-view: false
 
 logging:
   config: classpath:log4j2-spring.xml
