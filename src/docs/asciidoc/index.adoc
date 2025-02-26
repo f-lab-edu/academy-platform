@@ -14,7 +14,7 @@ This document describes the academy_platform API endpoints.
 [[User-API]]
 == User API
 
-[[User-회원가입]]
+[[회원가입]]
 == 회원가입
 
 === 성공적인 회원 가입
@@ -25,8 +25,8 @@ operation::join_user[snippets='http-request,request-fields,http-response,respons
 
 operation::join_user_fail_duplicate_id[snippets='http-request,request-fields,http-response']
 
-[[User-로그인]]
-== User 로그인
+[[로그인]]
+== 로그인
 
 '''
 === 로그인 성공
@@ -42,6 +42,9 @@ operation::login_user_failed_id[snippets='form-parameters,http-request,response-
 === 잘못된 비밀번호 입력
 
 operation::login_user_failed_password[snippets='form-parameters,http-request,response-fields,http-response']
+
+[[History-API]]
+== History API
 
 [[History-조회]]
 == History 조회
@@ -59,4 +62,60 @@ operation::histories[snippets='query-parameters,http-request,http-response,respo
 === 히스토리 생성 성공
 
 operation::create_history[snippets='http-request,request-fields,http-response,response-fields']
+'''
+
+== QaBoard API
+
+=== QaBoard 생성
+
+'''
+
+=== QaBoard 생성
+
+operation::create_board[snippets='request-fields,http-request,http-response,response-fields']
+'''
+
+=== QaBoard 여러 게시글 조회
+
+'''
+
+operation::search_boards[snippets='query-parameters,http-request,http-response,response-fields']
+'''
+
+=== QaBoard 게시글 단건 조회
+
+'''
+operation::search_board[snippets='query-parameters,http-request,http-response,response-fields']
+'''
+
+=== QaBoard 게시글 수정 테스트
+
+'''
+operation::update_board[snippets='request-fields,http-request,http-response,response-fields']
+'''
+
+=== QaBoard 게시글 삭제 테스트
+
+'''
+operation::delete_board[snippets='query-parameters,http-request,http-response,response-fields']
+'''
+
+== QaComment API
+
+=== QaComment 댓글 생성 테스트
+
+'''
+operation::create_comment[snippets='request-fields,http-request,http-response,response-fields']
+'''
+
+=== QaComment 댓글 수정 테스트
+
+'''
+operation::update_comment[snippets='request-fields,http-request,http-response,response-fields']
+'''
+
+=== QaComment 댓글 삭제 테스트
+
+'''
+operation::delete_comment[snippets='query-parameters,http-request,http-response,response-fields']
 '''
