@@ -12,8 +12,9 @@ import spring.academyPlatform.qa_comment.dao.QaCommentRepository;
 import spring.academyPlatform.qa_comment.domain.QaComment;
 import spring.academyPlatform.qa_comment.dto.QaCommentCreateRequest;
 import spring.academyPlatform.qa_comment.dto.QaCommentCreateResponse;
-import spring.academyPlatform.qa_comment.dto.QaCommentResponse;
+import spring.academyPlatform.qa_comment.dto.QaCommentDeleteResponse;
 import spring.academyPlatform.qa_comment.dto.QaCommentUpdateRequest;
+import spring.academyPlatform.qa_comment.dto.QaCommentUpdateResponse;
 import spring.academyPlatform.qa_comment.mapper.QaCommentMapper;
 
 @Service
@@ -60,7 +61,7 @@ public class QaCommentService {
 	}
 
 	@Transactional
-	public QaCommentResponse updateComment(Long commentId, QaCommentUpdateRequest request, HttpSession session) {
+	public QaCommentUpdateResponse updateComment(Long commentId, QaCommentUpdateRequest request, HttpSession session) {
 		// 댓글의 아이디를 받아서 조회 후 수정작업을 진행한다.
 		// 수정 대상은 댓글의 제목과 본문
 		// 수정자 , 수정일시 들어가는지 확인하기
@@ -74,7 +75,7 @@ public class QaCommentService {
 
 		QaComment result = qaCommentRepository.save(changeComment);
 
-		return qaCommentMapper.change(result);
+		return qaCommentMapper.toUpdateDto(result);
 	}
 
 	public boolean deleteComment(Long commentId) {

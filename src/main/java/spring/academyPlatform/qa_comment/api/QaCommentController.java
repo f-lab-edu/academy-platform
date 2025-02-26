@@ -16,8 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import spring.academyPlatform.qa_comment.application.QaCommentService;
 import spring.academyPlatform.qa_comment.dto.QaCommentCreateRequest;
 import spring.academyPlatform.qa_comment.dto.QaCommentCreateResponse;
-import spring.academyPlatform.qa_comment.dto.QaCommentResponse;
+import spring.academyPlatform.qa_comment.dto.QaCommentDeleteResponse;
 import spring.academyPlatform.qa_comment.dto.QaCommentUpdateRequest;
+import spring.academyPlatform.qa_comment.dto.QaCommentUpdateResponse;
 
 @RestController
 @RequestMapping("/api/v1/qa-comment")
@@ -35,10 +36,10 @@ public class QaCommentController {
 	}
 
 	@PutMapping("/comment")
-	public ResponseEntity<QaCommentResponse> changeComment(@RequestParam Long commentId,
+	public ResponseEntity<QaCommentUpdateResponse> changeComment(@RequestParam Long commentId,
 		@RequestBody QaCommentUpdateRequest request,
 		HttpSession session) {
-		QaCommentResponse result = qaCommentService.updateComment(commentId, request, session);
+		QaCommentUpdateResponse result = qaCommentService.updateComment(commentId, request, session);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
