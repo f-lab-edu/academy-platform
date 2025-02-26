@@ -44,8 +44,8 @@ public class QaCommentController {
 	}
 
 	@DeleteMapping("/comment")
-	public ResponseEntity<Boolean> deleteComment(@RequestParam Long commentId) {
-		boolean result = qaCommentService.deleteComment(commentId);
+	public ResponseEntity<QaCommentDeleteResponse> deleteComment(@RequestParam Long commentId) {
+		QaCommentDeleteResponse result = qaCommentService.deleteComment(commentId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }

@@ -8,6 +8,7 @@ import org.mapstruct.ReportingPolicy;
 import spring.academyPlatform.qa_comment.domain.QaComment;
 import spring.academyPlatform.qa_comment.dto.QaCommentCreateRequest;
 import spring.academyPlatform.qa_comment.dto.QaCommentCreateResponse;
+import spring.academyPlatform.qa_comment.dto.QaCommentDeleteResponse;
 import spring.academyPlatform.qa_comment.dto.QaCommentResponse;
 import spring.academyPlatform.qa_comment.dto.QaCommentUpdateResponse;
 
@@ -23,4 +24,6 @@ public interface QaCommentMapper {
 	QaCommentUpdateResponse toUpdateDto(QaComment qaComment);
 
 	QaCommentCreateResponse toCreateDto(QaComment qaComment);
+
+	QaCommentDeleteResponse toDeleteDto(QaComment qaComment);
 }

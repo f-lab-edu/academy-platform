@@ -78,7 +78,7 @@ public class QaCommentService {
 		return qaCommentMapper.toUpdateDto(result);
 	}
 
-	public boolean deleteComment(Long commentId) {
+	public QaCommentDeleteResponse deleteComment(Long commentId) {
 		// 댓글 삭제시 하위 댓글도 모두 삭제 처리가 진행되어야 한다.
 		// 1. 최상위 댓글 삭제시, 모든 하위 댓글 삭제
 		// 2. 대댓글 삭제시, 대댓글 하위 댓글 삭제  이런식으로...
@@ -95,14 +95,16 @@ public class QaCommentService {
 		qaCommentRepository.save(deleteComment);
 
 		List<QaComment> comments = qaCommentRepository.findByParentsCommentIdAndDeletedYn(commentId, YnCode.N);
-		List<QaComment> commentsToDelete = comments.stream()
-			.map(underComment -> underComment.toBuilder()
-				.deletedYn(YnCode.Y)
-				.build())
-			.toList();
+		if (!comments.isEmpty()) {
+			List<QaComment> commentsToDelete = comments.stream()
+				.map(underComment -> underComment.toBuilder()
+					.deletedYn(YnCode.Y)
+					.build())
+				.toList();
 
-		qaCommentRepository.saveAll(commentsToDelete);
+			qaCommentRepository.saveAll(commentsToDelete);
+		}
 
-		return true;
+		return qaCommentMapper.toDeleteDto(deleteComment);
 	}
 }
