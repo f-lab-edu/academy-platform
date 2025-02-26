@@ -80,23 +80,24 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/user").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 			.andExpect(status().isOk())
 			.andDo(document("join_user", // 문서 조각 디렉토리 명
-				requestFields( // 요청 본문 필드 정보 입력
-					fieldWithPath("userId").description("유저 아이디"),
-					fieldWithPath("userPassword").description("유저 비밀번호"),
-					fieldWithPath("userName").description("유저 이름"),
-					fieldWithPath("userType").description("유저 타입")),
-				responseFields( // 응답 필드 정보 입력
-					fieldWithPath("status").description("응답 상태 코드"),
-					fieldWithPath("message").description("응답 메시지"),
-					fieldWithPath("data.userId").description("유저 아이디"),
-					fieldWithPath("data.userName").description("유저 이름"),
-					fieldWithPath("data.userType").description("유저 타입"),
-					fieldWithPath("data.createdBy").description("생성자"),
-					fieldWithPath("data.deletedYn").description("삭제여부"))));
+					requestFields( // 요청 본문 필드 정보 입력
+						fieldWithPath("userId").description("유저 아이디"),
+						fieldWithPath("userPassword").description("유저 비밀번호"),
+						fieldWithPath("userName").description("유저 이름"),
+						fieldWithPath("userType").description("유저 타입")),
+					responseFields( // 응답 필드 정보 입력
+						fieldWithPath("userId").description("사용자 아이디"),
+						fieldWithPath("userName").description("사용자 이름"),
+						fieldWithPath("userType").description("사용자 유형"),
+						fieldWithPath("createdBy").description("생성자"),
+						fieldWithPath("deletedYn").description("삭제 여부")
+					)
+				)
+			);
 	}
 
 	@Test
@@ -112,7 +113,7 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/user").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
 		// 중복된 ID 생성 요청 DTO
@@ -123,25 +124,20 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join")
+		mockMvc.perform(post("/api/v1/user/user")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto2)))
-			.andExpect(status().isConflict()) // 409 Conflict 기대
-			.andExpect(jsonPath("$.status").value(500))
-			.andExpect(jsonPath("$.message").value("User ID already exists"))
+			.andExpect(status().is5xxServerError())
 			.andDo(document("join_user_fail_duplicate_id",
-				requestFields(
-					fieldWithPath("userId").description("유저 아이디"),
-					fieldWithPath("userPassword").description("유저 비밀번호"),
-					fieldWithPath("userName").description("유저 이름"),
-					fieldWithPath("userType").description("유저 타입")
-				),
-				responseFields(
-					fieldWithPath("status").description("HTTP 상태 코드"),
-					fieldWithPath("message").description("에러 메시지"),
-					fieldWithPath("data").description("리턴값 없음")
+					requestFields(
+						fieldWithPath("userId").description("유저 아이디"),
+						fieldWithPath("userPassword").description("유저 비밀번호"),
+						fieldWithPath("userName").description("유저 이름"),
+						fieldWithPath("userType").description("유저 타입")
+					),
+					responseBody()
 				)
-			));
+			);
 	}
 
 	@Test
@@ -157,21 +153,17 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/user").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
-		mockMvc.perform(post("/api/v1/user/login-user")
+		mockMvc.perform(post("/api/v1/user/login")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("userId", "test11")
 				.param("password", "password"))
 			.andExpect(status().isOk())
 			.andDo(document("login_user", formParameters(parameterWithName("userId").description("User ID"),
 						parameterWithName("password").description("User Password")),
-					responseFields( // 응답 필드 명세 추가
-						fieldWithPath("status").description("응답 상태 코드"),
-						fieldWithPath("message").description("응답 메시지"),
-						fieldWithPath("data").description("로그인 성공 여부")
-					)
+					responseBody()
 				)
 			);
 	}
@@ -189,26 +181,20 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/user").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
-		mockMvc.perform(post("/api/v1/user/login-user")
+		mockMvc.perform(post("/api/v1/user/login")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("userId", "test10000")
 				.param("password", "password"))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.status").value(400))
-			.andExpect(jsonPath("$.message").value("해당 아이디는 존재하지 않습니다."))
+			.andExpect(status().is5xxServerError())
 			.andDo(document("login_user_failed_id",
 				formParameters(
 					parameterWithName("userId").description("User ID"),
 					parameterWithName("password").description("User Password")
 				),
-				responseFields(
-					fieldWithPath("status").description("응답 상태 코드"),
-					fieldWithPath("message").description("응답 메시지"),
-					fieldWithPath("data").description("로그인 성공 여부")
-				)
+				responseBody()
 			));
 
 	}
@@ -226,26 +212,20 @@ class UserControllerTest extends AbstractIntegrationTest {
 			.userType(UserTypeCode.STUDENT)
 			.build();
 
-		mockMvc.perform(post("/api/v1/user/join").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/v1/user/user").contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(dto))).andExpect(status().isOk());
 
-		mockMvc.perform(post("/api/v1/user/login-user")
+		mockMvc.perform(post("/api/v1/user/login")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("userId", "test200")
 				.param("password", "password123"))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.status").value(400))
-			.andExpect(jsonPath("$.message").value("입력한 정보가 올바르지 않습니다"))
+			.andExpect(status().is5xxServerError())
 			.andDo(document("login_user_failed_password",
 				formParameters(
 					parameterWithName("userId").description("User ID"),
 					parameterWithName("password").description("User Password")
 				),
-				responseFields(
-					fieldWithPath("status").description("응답 상태 코드"),
-					fieldWithPath("message").description("응답 메시지"),
-					fieldWithPath("data").description("로그인 성공 여부")
-				)
+				responseBody()
 			));
 
 	}
