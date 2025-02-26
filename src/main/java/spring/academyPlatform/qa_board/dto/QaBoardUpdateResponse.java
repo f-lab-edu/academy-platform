@@ -2,6 +2,8 @@ package spring.academyPlatform.qa_board.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 import spring.academyPlatform.global.model.YnCode;
@@ -13,7 +15,9 @@ public class QaBoardUpdateResponse {
 	private String userId;
 	private String title;
 	private String post;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime modifiedAt;
 	private String createdBy;
 	private String modifiedBy;

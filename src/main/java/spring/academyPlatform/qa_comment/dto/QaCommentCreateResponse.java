@@ -2,6 +2,8 @@ package spring.academyPlatform.qa_comment.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 import spring.academyPlatform.global.model.YnCode;
@@ -15,14 +17,15 @@ public class QaCommentCreateResponse {
 	private Long priorityNumber;
 	private String title;
 	private String post;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
-	private LocalDateTime modifiedAt;
+	private String createdBy;
 	private YnCode deletedYn;
 
 	@Builder
 	public QaCommentCreateResponse(Long commentId, Long boardId, String userId, Long parentsCommentId,
 		Long priorityNumber,
-		String title, String post, LocalDateTime createdAt, LocalDateTime modifiedAt, YnCode deletedYn) {
+		String title, String post, LocalDateTime createdAt, String createdBy, YnCode deletedYn) {
 		this.commentId = commentId;
 		this.boardId = boardId;
 		this.userId = userId;
@@ -30,8 +33,8 @@ public class QaCommentCreateResponse {
 		this.priorityNumber = priorityNumber;
 		this.title = title;
 		this.post = post;
+		this.createdBy = createdBy;
 		this.createdAt = createdAt;
-		this.modifiedAt = modifiedAt;
 		this.deletedYn = deletedYn;
 	}
 }
