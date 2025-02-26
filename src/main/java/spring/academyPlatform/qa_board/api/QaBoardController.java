@@ -20,6 +20,7 @@ import spring.academyPlatform.qa_board.application.QaBoardService;
 import spring.academyPlatform.qa_board.dto.QaBoardChangeResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardDeleteResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardSearchResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardUpdateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardUpdateResponse;
@@ -66,8 +67,9 @@ public class QaBoardController {
 	}
 
 	@DeleteMapping("/board")
-	public ResponseEntity<Boolean> deleteBoard(@RequestParam(required = false) Long boardId) {
-		boolean result = qaBoardService.deletedBoard(boardId);
+	public ResponseEntity<QaBoardDeleteResponse> deleteBoard(@RequestParam Long boardId,
+		HttpSession session) {
+		QaBoardDeleteResponse result = qaBoardService.deletedBoard(boardId, session);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

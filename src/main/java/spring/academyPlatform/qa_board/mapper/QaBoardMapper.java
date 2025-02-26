@@ -10,6 +10,7 @@ import spring.academyPlatform.qa_board.domain.QaBoard;
 import spring.academyPlatform.qa_board.dto.QaBoardChangeResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardDeleteResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardSearchResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardUpdateResponse;
 import spring.academyPlatform.qa_comment.mapper.QaCommentMapper;
@@ -39,5 +40,7 @@ public interface QaBoardMapper {
 	List<QaBoardChangeResponse> toChange(List<QaBoard> qaBoard);
 
 	QaBoardUpdateResponse updateDto(QaBoard qaBoard);
+
+	QaBoardDeleteResponse deleteDto(QaBoard qaBoard);
 
 }

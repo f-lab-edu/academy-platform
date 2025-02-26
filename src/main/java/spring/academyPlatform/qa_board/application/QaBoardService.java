@@ -18,6 +18,7 @@ import spring.academyPlatform.qa_board.domain.QaBoard;
 import spring.academyPlatform.qa_board.dto.QaBoardChangeResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardCreateResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardDeleteResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardSearchResponse;
 import spring.academyPlatform.qa_board.dto.QaBoardUpdateRequest;
 import spring.academyPlatform.qa_board.dto.QaBoardUpdateResponse;
@@ -89,24 +90,28 @@ public class QaBoardService {
 	}
 
 	@Transactional
-	public boolean deletedBoard(Long boardId) {
+	public QaBoardDeleteResponse deletedBoard(Long boardId, HttpSession session) {
 		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
 		if (board == null) {
 			throw new IllegalStateException("Board not found");
 		}
 		QaBoard changeBoard = board.toBuilder()
 			.deletedYn(YnCode.Y)
+			.modifiedBy(session.getAttribute("user").toString())
 			.build();
 		qaBoardRepository.save(changeBoard);
 
 		List<QaComment> commentList = qaCommentRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		if (!commentList.isEmpty()) {
+			List<QaComment> deleteList = commentList.stream()
+				.map(comment -> comment.toBuilder().deletedYn(YnCode.Y).build())
+				.toList();
 
-		List<QaComment> deleteList = commentList.stream()
-			.map(comment -> comment.toBuilder().deletedYn(YnCode.Y).build())
-			.toList();
+			qaCommentRepository.saveAll(deleteList);
+		}
 
-		qaCommentRepository.saveAll(deleteList);
+		qaBoardMapper.deleteDto(changeBoard);
 
-		return true;
+		return qaBoardMapper.deleteDto(changeBoard);
 	}
 }
