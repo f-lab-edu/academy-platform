@@ -18,7 +18,7 @@ spring:
     properties:
       hibernate:
         format_sql: true # SQL 출력 시 보기 좋게 정렬하여 출력
-        show_sql: true # 콘솔에 실행되는 SQL 문을 표시하여 디버깅에 도움
+        show_sql: false # 콘솔에 실행되는 SQL 문을 표시하여 디버깅에 도움
     # Spring Boot에서 View 렌더링 중에 데이터베이스와의 연결이 열려 있도록 해주는 옵션
     open-in-view: false
 
@@ -28,6 +28,7 @@ logging:
     org:
       hibernate:
         sql: off
+        type.descriptor.sql: off
     p6spy: debug
 
 decorator:

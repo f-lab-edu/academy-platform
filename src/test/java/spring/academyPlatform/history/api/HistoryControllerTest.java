@@ -31,6 +31,7 @@ import spring.academyPlatform.history.dto.HistorySearchRequest;
 import spring.academyPlatform.history.mapper.HistoryMapper;
 import spring.academyPlatform.user.dao.UserRepository;
 import spring.academyPlatform.user.domain.User;
+import spring.academyPlatform.user.model.UserTypeCode;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -55,7 +56,7 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 
 		User user = userRepository.save(User.builder()
 			.userId("testId")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.userName("test")
 			.userPassword("1234")
 			.createdBy("test")
@@ -111,7 +112,7 @@ class HistoryControllerTest extends AbstractIntegrationTest {
 
 		User user = userRepository.save(User.builder()
 			.userId("testId")
-			.userType("student")
+			.userType(UserTypeCode.STUDENT)
 			.userName("test")
 			.userPassword("1234")
 			.createdBy("test")

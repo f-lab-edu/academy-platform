@@ -3,6 +3,7 @@ package spring.academyPlatform.global.config.redis;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -15,6 +16,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @Configuration
 @EnableRedisHttpSession // 스프링 애플리케이션이 Redis 가 지원하는 분산 세션 (distributed sessions backed by Redis) 을 사용할 수 있게 해준다.
+@Profile("!test")
 public class RedisConfig {
 
 	@Value("${spring.data.redis.host}")

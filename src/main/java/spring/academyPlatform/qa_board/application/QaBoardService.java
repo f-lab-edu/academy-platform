@@ -1,0 +1,117 @@
+package spring.academyPlatform.qa_board.application;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import spring.academyPlatform.global.model.YnCode;
+import spring.academyPlatform.global.util.CustomPage;
+import spring.academyPlatform.global.util.DateTimeFormatterUtil;
+import spring.academyPlatform.qa_board.dao.QaBoardRepository;
+import spring.academyPlatform.qa_board.domain.QaBoard;
+import spring.academyPlatform.qa_board.dto.QaBoardChangeResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardCreateRequest;
+import spring.academyPlatform.qa_board.dto.QaBoardCreateResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardDeleteResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardSearchResponse;
+import spring.academyPlatform.qa_board.dto.QaBoardUpdateRequest;
+import spring.academyPlatform.qa_board.dto.QaBoardUpdateResponse;
+import spring.academyPlatform.qa_board.mapper.QaBoardMapper;
+import spring.academyPlatform.qa_comment.dao.QaCommentRepository;
+import spring.academyPlatform.qa_comment.domain.QaComment;
+import spring.academyPlatform.user.dao.UserRepository;
+import spring.academyPlatform.user.domain.User;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class QaBoardService {
+
+	private final QaBoardRepository qaBoardRepository;
+	private final QaBoardMapper qaBoardMapper;
+	private final UserRepository userRepository;
+	private final QaCommentRepository qaCommentRepository;
+
+	@Transactional
+	public QaBoardCreateResponse insertBoard(QaBoardCreateRequest request, HttpSession session) {
+
+		User user = userRepository.findByUserName(session.getAttribute("user").toString());
+		String userId = user.getUserId();
+		String userName = user.getUserName();
+
+		QaBoardCreateResponse response = qaBoardMapper.changeDto(request);
+		QaBoardCreateResponse result = response.toBuilder()
+			.userId(userId)
+			.createdBy(userName)
+			.build();
+
+		QaBoard board = qaBoardRepository.save(qaBoardMapper.toEntity(result));
+
+		return qaBoardMapper.changeDto(board);
+	}
+
+	@Transactional(readOnly = true)
+	public CustomPage<QaBoardChangeResponse> findBoard(Long boardId, String title, String userId, String startDate,
+		String endDate, int page,
+		int size) {
+
+		LocalDateTime start = DateTimeFormatterUtil.parse(startDate).atStartOfDay(); // 날짜 범위 시작일
+		LocalDateTime end = DateTimeFormatterUtil.parse(endDate).atTime(LocalTime.MAX);
+
+		return qaBoardRepository.findBoard(boardId, title, userId, start, end, page, size);
+	}
+
+	@Transactional(readOnly = true)
+	public QaBoardSearchResponse findSingleBoard(Long boardId) {
+		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		return qaBoardMapper.changeSearchResponse(board);
+	}
+
+	@Transactional
+	public QaBoardUpdateResponse updateBoard(Long boardId, QaBoardUpdateRequest dto, HttpSession session) {
+		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		if (board == null) {
+			throw new IllegalStateException("Board not found");
+		}
+		QaBoard changeBoard = board.toBuilder()
+			.title(dto.getTitle())
+			.post(dto.getPost())
+			.modifiedBy(session.getAttribute("user").toString())
+			.build();
+		qaBoardRepository.save(changeBoard);
+
+		return qaBoardMapper.updateDto(changeBoard);
+	}
+
+	@Transactional
+	public QaBoardDeleteResponse deletedBoard(Long boardId, HttpSession session) {
+		QaBoard board = qaBoardRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		if (board == null) {
+			throw new IllegalStateException("Board not found");
+		}
+		QaBoard changeBoard = board.toBuilder()
+			.deletedYn(YnCode.Y)
+			.modifiedBy(session.getAttribute("user").toString())
+			.build();
+		qaBoardRepository.save(changeBoard);
+
+		List<QaComment> commentList = qaCommentRepository.findByBoardIdAndDeletedYn(boardId, YnCode.N);
+		if (!commentList.isEmpty()) {
+			List<QaComment> deleteList = commentList.stream()
+				.map(comment -> comment.toBuilder().deletedYn(YnCode.Y).build())
+				.toList();
+
+			qaCommentRepository.saveAll(deleteList);
+		}
+
+		qaBoardMapper.deleteDto(changeBoard);
+
+		return qaBoardMapper.deleteDto(changeBoard);
+	}
+}
